@@ -1,0 +1,14 @@
+.THIS {
+}
+.THIS .slds-input{
+    width:80% !important;
+    border-style: inset !important;
+}
+
+.THIS .divbox label{
+    display:none;
+}
+.THIS .slds-modal__container{
+       max-width: 70rem !important;
+       width:70% !important;
+ }

@@ -1,0 +1,22 @@
+.THIS {
+}
+
+.THIS .buttonColor{
+    background-color: #04844b !important;
+}
+.THIS .buttonColor svg{
+    fill:white !important;
+}
+.THIS .successButtonColor{
+    background-color: #04844b !important;
+}
+.THIS .successButtonColor svg{
+    fill:white !important;
+}
+
+.THIS .errorButtonColor{
+    background-color: rgb(194, 57, 52) !important;
+}
+.THIS .errorButtonColor svg{
+    fill:white !important;
+}

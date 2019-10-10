@@ -1,0 +1,2 @@
+<apex:page standardController="OrderApi__Credit_Memo__c" extensions="Fon_RefundCreditMemo" Action="{!createCreditMemoline}">
+</apex:page>

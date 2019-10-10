@@ -1,0 +1,271 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" 
+                access="global" controller="Fon_SalesOrderCreditRefundCtrl">
+   
+    <aura:attribute name="isOptionSelected" type="Boolean" default="true"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="objSOWrapper" type="sObject" />
+    <aura:attribute name="objInvoiceWrapper" type="sObject" />
+    <aura:attribute name="noRecordFound" type="Boolean" default="false"/>
+    <aura:attribute name="spinner" type="Boolean" default="false"/>
+    <aura:attribute name="isSingleInvoiceExisted" type="Boolean" default="false"/>
+    <aura:attribute name="isOnlyReceiptExisted" type="Boolean" default="false"/>
+    <aura:attribute name="isMultiInvoiceExistedWithNoSelect" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="lstId" type="List" />
+    <aura:attribute name="lstReceiptLine" type="List" />
+    <aura:attribute name="lstInvoiceLine" type="List" />
+    <aura:attribute name="isRefundValidatedOneTime" type="Boolean" default="false"/>
+    
+    <aura:html tag="style">
+        .slds-spinner_container{
+        background: transparent !important;
+        }
+        .modal-body {
+        background: transparent !important;
+        box-shadow: none !important;
+        }
+        .slds-modal__header--empty {
+        display: none !important;
+        }
+        .modal-container{
+        width: 70% !important;
+        max-width: initial !important;
+        }
+        .mouseHover:hover{
+         background-color: #D3D3D3;
+        }
+        
+
+    </aura:html> 
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+    <div>
+        <div class="slds-modal__container " aura:id="mainModalFrame">
+            <div class="slds-modal__header  slds-theme_inverse">
+                <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeModalView}">
+                    <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_Create_Refund}</h2> 
+            </div>
+            
+            <aura:if isTrue="{!not(v.isMultiInvoiceExistedWithNoSelect) }">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" >
+                    <div class="slds-grid slds-wrap ">
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12">
+                            <b>Customer Name : </b>
+                            {!v.objSOWrapper.customerName}
+                            
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-large-size_6-of-12"> 
+                           <b>AAFP ID : </b>
+                             {!v.objSOWrapper.aafpId}
+                        </div>
+                    </div>	
+                </div> 
+                
+                <div class="slds-modal__content slds-p-around_medium " id="modal-content-id-1" style="padding: 2px;">
+                    <aura:if isTrue="{!not(v.noRecordFound)}">
+                        <div class="slds-grid slds-wrap" style="border-style: ridge;   " >
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12"  >
+                                <div class="slds-truncate" title="ID"><b>Select</b></div>			 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                <div class="slds-truncate" title="ID"><b>Item Name</b></div>		 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                                <div class="slds-truncate" title="Name"><b>SP</b></div>		 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                <div class="slds-truncate" title="Type"><b>Quantity</b></div>		 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12" >
+                                <div class="slds-truncate" title="Number Of Employees"><b>Total</b></div>			 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                <div class="slds-truncate" title="Ticker Symbol"><b>Refund</b></div>		 
+                            </div>
+                        </div>
+                        <aura:if isTrue="{!v.isSingleInvoiceExisted}">
+                            <aura:iteration items="{!v.objInvoiceWrapper.lstInvoiceLineItem }" var="eachInvoice">
+                                 <div class="mouseHover ">
+                                <div class="slds-grid slds-wrap abc" style="padding-top:10px;  " >
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12" style="padding-left: 7px;">
+                                        <ui:inputCheckbox value="{!eachInvoice.isChecked}" />			 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                        {!eachInvoice.objInvoiceLine.Fon_Item_Name__c}	 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                                        {!eachInvoice.objInvoiceLine.OrderApi__Sale_Price__c}	 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                        <lightning:input type="text" value="{!eachInvoice.objInvoiceLine.OrderApi__Quantity__c}" class="divbox" />
+                                        <aura:if isTrue="{! eachInvoice.isNotValidQuantity}">
+                                            <p style="color:red;font-size: 12px;">{!$Label.c.Fon_InvalidQuantity}</p>
+                                        </aura:if>		 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12" >
+                                        {!eachInvoice.objInvoiceLine.OrderApi__Total__c}			 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                        <lightning:input type="text" value="{!eachInvoice.refundAmount}" class="divbox" />
+                                        <aura:if isTrue="{! eachInvoice.isNotValidRefund}">
+                                            <p style="color:red;font-size: 12px;">{!$Label.c.Fon_InvalidRefundAmount}</p>
+                                        </aura:if> 		 
+                                    </div>
+                                </div>
+                                 <hr style="margin-top: 1rem !important;" />
+                                     </div>
+                            </aura:iteration>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isOnlyReceiptExisted}">   
+                            <aura:iteration items="{!v.objSOWrapper.lstReceiptLineItem}" var="eachReceiptLine">
+                                <div class="mouseHover ">
+                                <div class="slds-grid slds-wrap " style="padding-top:10px;  ">
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12" style="padding-left: 7px;">
+                                        <ui:inputCheckbox value="{!eachReceiptLine.isChecked}" />			 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                                        {!eachReceiptLine.objReceiptLine.Fon_Item_Name__c}	 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                                        {!eachReceiptLine.objReceiptLine.OrderApi__Sale_Price__c}	 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12 ">
+                                        <lightning:input type="text" aura:id="qtyValue" value="{!eachReceiptLine.objReceiptLine.OrderApi__Quantity__c}" customError="enter correct qty" class="divbox"/>
+                                        <aura:if isTrue="{! eachReceiptLine.isNotValidQuantity}">
+                                            <p style="color:red;font-size: 12px;  ">{!$Label.c.Fon_InvalidQuantity}</p>
+                                        </aura:if>		 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                        {!eachReceiptLine.objReceiptLine.OrderApi__Total__c}			 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12" >
+                                        <lightning:input type="text" value="{!eachReceiptLine.refundAmount}"  class="divbox"/>
+                                        <aura:if isTrue="{! eachReceiptLine.isNotValidRefund}">
+                                            <p style="color:red;font-size: 12px;">{!$Label.c.Fon_InvalidRefundAmount}</p>
+                                        </aura:if> 		 
+                                    </div>
+                                   
+                                </div>
+                                
+                                 <hr style="margin: 1rem !important;" />
+                               </div>
+                            </aura:iteration>
+                        </aura:if> 
+                        <div class="slds-grid slds-wrap" style="margin-bottom:15px;" >
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_7-of-12" style="padding-left:40px;">
+                                <div class="slds-truncate">
+                                    <br/>
+                                    <lightning:button label="Cancel" class="slds-button_brand" onclick="{!c.cancel}"  />
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12">
+                                <lightning:select name="selectItem" label="" onchange="{!c.changeValue}"  aura:id="selectedOption">
+                                    <option value="none">Choose One...</option>
+                                    <option value="createcredit">Create Credit</option>
+                                    <option value="createrefund">Create Refund</option>
+                                </lightning:select>
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left:40px;">
+                                <div class="slds-truncate">
+                                    <br/>
+                                    <lightning:button label="Process" class="slds-button_brand" onclick="{!c.process}" disabled="{!v.isOptionSelected}" />
+                                    
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <aura:set attribute="else">
+                            No record found
+                        </aura:set>
+                    </aura:if> 
+                </div> 
+                
+                <aura:set attribute="else">
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="padding: 2px;">	
+                        <div class="slds-grid slds-wrap" style="border-style: ridge; " >
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12"  >
+                                <div class="slds-truncate" title="ID"><b>Select</b></div>		 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                                <div class="slds-truncate" title="Name"><b>Invoice No.</b></div>		 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                              <div class="slds-truncate" title="Amount Paid"><b>Amount Paid</b></div>	 
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                               <div class="slds-truncate" title="Total"><b>Total</b></div>	 
+                            </div>
+                            
+                    </div>        
+                    
+					<aura:iteration items="{!v.objSOWrapper.lstInvoice}" var="eachInvoiceRec">
+					<div class="mouseHover ">
+                                <div class="slds-grid slds-wrap " style="padding-top:10px; " >
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12" style="padding-left: 7px;">
+                                       <ui:inputRadio aura:id="r0" name="others" label="" value="{!eachInvoiceRec.isChecked}" />		 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                                        {!eachInvoiceRec.objInvoice.Name}	 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                                        {!eachInvoiceRec.objInvoice.OrderApi__Amount_Paid__c}	 
+                                    </div>
+                                    <div class="slds-col slds-size_1-of-1 slds-large-size_3-of-12">
+                                        {!eachInvoiceRec.objInvoice.OrderApi__Total__c}		 
+                                    </div>
+                                    
+                        
+                                </div>
+                                 <hr style="margin: .5rem !important;" />
+                                     </div>
+					</aura:iteration> 
+                            <div class="slds-grid slds-wrap" style="margin-bottom:15px;" >
+                                
+                            <div class="slds-col slds-size_1-of-1 slds-large-size_12-of-12 slds-align_absolute-center " >
+                                
+                                <lightning:button label="Cancel" class="slds-button_brand" onclick="{!c.cancel}"  />
+                                <div class="slds-p-right_large"></div>
+                                <lightning:button label="Continue" class="slds-button_brand" onclick="{!c.selectInvoiceAndContinue}" />
+                              
+                            </div>
+                        
+                        </div> 
+                       
+                    </div> 
+                </aura:set>
+            </aura:if> 
+        </div>
+        
+        <div aura:id="secondModalFrame" class="slds-hide">
+            <div class="slds-modal__container" >
+                <div class="slds-modal__header slds-theme_inverse">
+                    <h2 id="header43" class="slds-text-heading--medium">{!$Label.c.Fon_RefundAlreadyCreated}</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <center>
+                        <div>
+                            <p></p>
+                            <p>{!$Label.c.Fon_RefundHasAlready}</p>
+                            <p></p>
+                        </div>
+                    </center>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning:button label="Cancel"  onclick="{!c.cancel}"  />
+                    <lightning:button label="Continue" class="slds-button_brand" onclick="{!c.process}"  />
+                </footer>
+            </div>
+        </div>
+    </div>
+</aura:component>

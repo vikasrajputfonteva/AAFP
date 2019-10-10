@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Accounts_Payable_Account__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>This Accounts Payable GL Account will be used as Deposit Account for all refunds from Check Payment</description>
+    <externalId>false</externalId>
+    <inlineHelpText>This Accounts Payable GL Account will be used as Deposit Account for all refunds from Check Payment</inlineHelpText>
+    <label>Accounts Payable Account</label>
+    <referenceTo>OrderApi__GL_Account__c</referenceTo>
+    <relationshipLabel>Business Groups (Accounts Payable Account)</relationshipLabel>
+    <relationshipName>Business_Groups</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

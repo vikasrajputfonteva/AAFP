@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Fon_Create_Credit_Memo</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Create Credit Memo</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>/apex/Fon_Receipt_Credit_Memo?id={!OrderApi__Receipt__c.Id}</url>
+</WebLink>

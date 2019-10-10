@@ -1,0 +1,54 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" controller="Fon_ReceiptCreditMemoPageController" >
+    <aura:attribute name="actionType" type="String" required="true" />
+    <aura:attribute name="receiptId" type="String" required="true"/>
+    <ltng:require scripts="{!join(',', $Resource.OrderApi__SLDS_Base+'/js/scripts.js', $Resource.Framework__UrlUtil)}" 
+                  styles="{!$Resource.OrderApi__SLDS_Base+'/css/styles.css'}" afterScriptsLoaded="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds hidden main-wrapper" aura:id="mainWrapperDiv">
+        <div class="slds-grid slds-loading-layout slds-theme--shade">
+            
+        </div>
+    </div>
+    
+    <div class="slds-hide slds-modal slds-fade-in-open " style="height:4rem" aura:id="successNotifyDiv">
+        <div class="slds-notify_container slds-is-relative">
+            <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                <span class="slds-assistive-text">success</span>
+                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                    <lightning:icon alternativeText="Success" iconName="utility:success" size="small"
+                                    class="successButtonColor slds-m-right_small" />
+                </span>
+                <div class="slds-notify__content">
+                    <h2 class="slds-text-heading_small">{!$Label.c.Fon_SuccessfullyCreditMemoCreationMessage}</h2>
+                </div>
+                <div class="slds-notify__close">
+                    <lightning:icon alternativeText="Close" iconName="utility:close" size="small"
+                                    class="buttonColor slds-m-right_small" onclick="{!c.goBack}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slds-hide" style="height:640px" aura:id="errorNotifyDiv">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" 
+                            title="Close" onclick="{!c.goBack}">
+                        <lightning:icon alternativeText="Success" iconName="utility:close" size="small" title="Close"/>
+                    </button>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{!$Label.c.Fon_ContactToAdminErrorMessage}</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_brand" onclick="{!c.goBack}">Continue</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    
+</aura:component>

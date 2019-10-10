@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Fon_AutoAppliedCreditMemoBatch</fullName>
+        <categories>TC-012647</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_AutoAppliedCreditMemoBatch</shortDescription>
+        <value>AutoAppliedCreditMemoBatch-</value>
+    </labels>
+    <labels>
+        <fullName>Fon_BatchStarted</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_BatchStarted</shortDescription>
+        <value>The batch job has started.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_ContactToAdminErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_ContactToAdminErrorMessage</shortDescription>
+        <value>Something Went Wrong, Please Contact To Admin...</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Create_Refund</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Create_Refund</shortDescription>
+        <value>Create Refund</value>
+    </labels>
+    <labels>
+        <fullName>Fon_CreditMemoCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_CreditMemoCreated</shortDescription>
+        <value>Credit Memo created from Receipt</value>
+    </labels>
+    <labels>
+        <fullName>Fon_CreditMemoCreatedFromReceipt</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_CreditMemoCreatedFromReceipt</shortDescription>
+        <value>Credit Memo created from Receipt</value>
+    </labels>
+    <labels>
+        <fullName>Fon_CreditMemoRefundItem</fullName>
+        <categories>Accounting</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_CreditMemoRefundItem</shortDescription>
+        <value>Credit Memo Refund Item</value>
+    </labels>
+    <labels>
+        <fullName>Fon_CreditMemoRefunded</fullName>
+        <categories>Accounting</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_CreditMemoRefunded</shortDescription>
+        <value>CreditMemo Refunded</value>
+    </labels>
+    <labels>
+        <fullName>Fon_InvalidQuantity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_InvalidQuantity</shortDescription>
+        <value>Invalid quantity.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_InvalidRefundAmount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_InvalidRefundAmount</shortDescription>
+        <value>Invalid refund amount.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Memberships</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Memberships</shortDescription>
+        <value>Memberships</value>
+    </labels>
+    <labels>
+        <fullName>Fon_NewRefundForReceipt</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_NewRefundForReceipt</shortDescription>
+        <value>New Refund for Receipt #</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PleaseSelectAtLeastOneRecord</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PleaseSelectAtLeastOneRecord</shortDescription>
+        <value>Please select at least one record.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_ProformaInvoice</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_ProformaInvoice</shortDescription>
+        <value>This Proforma Invoice cannot be converted into an Invoice. Incompatible Subscription Plan</value>
+    </labels>
+    <labels>
+        <fullName>Fon_RefundAlreadyCreated</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_RefundAlreadyCreated</shortDescription>
+        <value>Refund Already Created</value>
+    </labels>
+    <labels>
+        <fullName>Fon_RefundCreatedSuccessfully</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_RefundCreatedSuccessfully</shortDescription>
+        <value>Refund created successfully.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_RefundHasAlready</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_RefundHasAlready</shortDescription>
+        <value>A refund has already been created for this receipt. Wish to continue?</value>
+    </labels>
+    <labels>
+        <fullName>Fon_SuccessMessage</fullName>
+        <categories>Button to Convert Pro Forma Invoice into a regular Invoice</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_SuccessMessage</shortDescription>
+        <value>The record has been converted successfully!</value>
+    </labels>
+    <labels>
+        <fullName>Fon_SuccessfullyCreditMemoCreationMessage</fullName>
+        <categories>TC-012646- Generate a Credit Memo from a Payment Made</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_SuccessfullyCreditMemoCreationMessage</shortDescription>
+        <value>Credit Memo Record Has Been Created Successfully !</value>
+    </labels>
+    <labels>
+        <fullName>Fon_SystemAdministrator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_SystemAdministrator</shortDescription>
+        <value>System Administrator</value>
+    </labels>
+    <labels>
+        <fullName>Fon_callBatch</fullName>
+        <categories>Accounting</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_callBatch</shortDescription>
+        <value>Calling Batch For detete transaction</value>
+    </labels>
+    <labels>
+        <fullName>Fon_closedSalesOrder</fullName>
+        <categories>Button to Convert Pro Forma Invoice into a regular Invoice</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_closedSalesOrder</shortDescription>
+        <value>Posting Entity Should Be Receipt And Sales Order Should Be In Closed Status</value>
+    </labels>
+    <labels>
+        <fullName>Fon_validation_no_records_selected</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_validation_no_records_selected</shortDescription>
+        <value>Invalid input, no record(s) selected.</value>
+    </labels>
+</CustomLabels>

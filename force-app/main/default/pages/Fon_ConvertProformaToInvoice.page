@@ -1,0 +1,31 @@
+<apex:page controller="Fon_ConvertProformaToInvoiceController" showHeader="true" sidebar="false" docType="html-5.0" tabStyle="OrderApi__Sales_Order__c" >
+    <apex:includeLightning />
+    <script src="{!URLFOR($Resource.Framework__SLDS_BaseV2,'js/scripts.min.js')}" type="text/javascript"></script>
+    <link rel="stylesheet" media="screen" href="{!URLFOR($Resource.Framework__SLDS_BaseV2,'css/fullStyles.css')}"/>
+        <div class="slds slds-loading-layout" id="mainWrapper">
+            <div class="slds-grid slds-loading-layout slds-theme--shade">
+                <div class="slds-col slds-text-align--center slds-align-middle" >
+                    <img src="{!URLFOR($Resource.Framework__SLDS_BaseV2,'/img/spinners/slds_spinner_brand.gif')}" alt="saving" width="50" height="50" />&nbsp;
+    <span class="slds-text-heading--medium">Loading...</span>
+    </div>
+    </div>
+    </div>
+    
+    <div id="lightning" />
+        <script>
+        function componentLoaded() {
+        $('#mainWrapper').addClass('hidden');
+    }
+    $Lightning.use("c:Fon_ConvertProformaToInvoiceApp", function() {
+        $Lightning.createComponent("c:Fon_ConvertProformaToInvoiceCmp",
+                                   {
+                                       recordId : "{!JSENCODE($CurrentPage.parameters.id)}"
+                                   },
+                                   "lightning",
+                                   function(cmp) {
+                                   });
+    });
+    </script>
+    
+    
+</apex:page>

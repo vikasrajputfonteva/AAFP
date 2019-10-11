@@ -1,0 +1,41 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="Fon_QuickPayMainFrameCtrl">
+
+    <aura:attribute name="cbaseURL" type="String"/>
+    <aura:attribute name="lstSalesOrder" type="List" />
+    <aura:attribute name="totalInvoiceAmount" type="Decimal" default="0.00"/>
+    <aura:attribute name="payeeEmail" type="String"/>
+    <aura:attribute name="submitBtnDisable" type="Boolean" default="false"/>
+    <aura:attribute name="toastwindowMain" type="Boolean" default="false"/>
+    <aura:attribute name="msg" type="String" />    
+    <lightning:spinner aura:id="quickPaySpinner" class="slds-hide"/>
+    <div aura:id="toast-theme">
+        <c:Fon_Toast_message toastwindow="{!v.toastwindowMain}" message="{!v.msg}"/>
+    </div>
+    
+    <c:Fon_QuickPaySearchBoxCmp cbaseURL="{!v.cbaseURL}" lstSalesOrder="{!v.lstSalesOrder}" totalInvoiceAmount="{!v.totalInvoiceAmount}"></c:Fon_QuickPaySearchBoxCmp>
+    
+    <aura:iteration items="{!v.lstSalesOrder}" var="objSO">
+        <c:Fon_SalesOrderQuickPayCMP lstSalesOrder="{!v.lstSalesOrder}" objSalesOrder="{!objSO}" totalInvoiceAmount="{!v.totalInvoiceAmount}"/>
+    </aura:iteration>
+    <div class="slds-size--1-of-12" style="height:25px;"></div>
+    
+    <aura:if isTrue="{!v.totalInvoiceAmount > 0}">
+        <div class="slds-grid slds-wrap slds-p-around--medium" style="background:#cf7f00;font-size: 14px;"> 
+            <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12" style="cursor: pointer;color:#fff;">
+                <b>{!$Label.c.Fon_Total_Invoice_Payment}: &nbsp;&nbsp;
+                    $<lightning:formattedNumber value="{!v.totalInvoiceAmount}" maximumFractionDigits="2"/> 
+                </b> 
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-12" style="background-color: transparent; color:#1a1a1a;">
+                <ui:inputText class="slds-p-left_x-large slds-input inp" value="{!v.payeeEmail}" placeholder="{!$Label.c.Fon_EmailId}"  />
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                &nbsp;
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                <lightning:button label="Submit" title="Brand action" onclick="{!c.submitSalesOrder}" class="btnSubmit btnSubmitBgColor" disabled="{!v.submitBtnDisable}"/>
+            </div>
+        </div>
+    </aura:if> 
+</aura:component>

@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" >
+    <aura:attribute name="lstSalesOrder" type="List" />
+    <aura:attribute name="objSalesOrder" type="Fon_SalesOrderWrapper" />
+    <aura:attribute name="acc" type="Account"/>
+    <aura:attribute name="totalInvoiceAmount" type="Decimal" />
+    <div class="slds-page-header slds-box slds-theme_shade " style="{!'border:2px solid;cursor:pointer;color:#fff;background-color:#0096cc;border-color:' + v.objSalesOrder.strBGColor}" >
+        <section class="slds-clearfix">
+            <div class="slds-float--left ">
+                <lightning:buttonIcon class="slds-show customBTNbgColor" aura:id="articleOne" iconName="utility:add" size="x-small" alternativeText="Indicates add" onclick="{!c.sectionOne}"/>
+                <lightning:buttonIcon class="slds-hide customBTNbgColor" aura:id="articleOne" iconName="utility:dash" size="x-small" alternativeText="Indicates dash" onclick="{!c.sectionOne}"/>
+            </div>
+            <div class="slds-m-left--large"><b>&nbsp;&nbsp; {!$Label.c.Fon_INV + ' '} {!v.objSalesOrder.strSOName} </b>
+                <div class="slds-float--right" id="{!v.objSalesOrder.strSOID}" onclick="{!c.removeSalesOrder}">
+                    <lightning:buttonIcon size="x-small" iconName="utility:close" alternativeText="Supprimer la ligne" 
+                                          class="slds-show customBTNbgColor" />
+                    <!--
+                        <button class="slds-button slds-button_icon slds-button_icon-error" title="Error" id="{!v.objSalesOrder.strSOID}" onclick="{!c.removeSalesOrder}">
+                         x
+                        </button>
+      -->
+                </div>
+                <div class="slds-float--right slds-m-right_x-large"> 
+                    <b> 
+                        {!$Label.c.Fon_TotalAmt}<lightning:formattedNumber value="{!v.objSalesOrder.totalAmount}" maximumFractionDigits="2"/>
+                    </b>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="slds-hide slds-p-around--medium" aura:id="articleOne">
+        <c:Fon_SalesOrderLineQuickPayCMP lstSalesOrder="{!v.lstSalesOrder}" objSalesOrder="{!v.objSalesOrder}" totalInvoiceAmount="{!v.totalInvoiceAmount}"/>
+    </div>
+</aura:component>

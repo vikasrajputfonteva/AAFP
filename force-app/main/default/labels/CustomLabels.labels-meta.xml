@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Fon_100</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_100</shortDescription>
+        <value>$100.00</value>
+    </labels>
+    <labels>
+        <fullName>Fon_365</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_365</shortDescription>
+        <value>$365.00(Club Charge)</value>
+    </labels>
+    <labels>
+        <fullName>Fon_50</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_50</shortDescription>
+        <value>$50.00</value>
+    </labels>
+    <labels>
+        <fullName>Fon_7DigitCode</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_7DigitCode</shortDescription>
+        <value>Your 7 digit invoice code</value>
+    </labels>
+    <labels>
+        <fullName>Fon_7DigitId</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_7DigitId</shortDescription>
+        <value>Your 7 digit AFFP ID</value>
+    </labels>
+    <labels>
+        <fullName>Fon_AAFPID</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_AAFPID</shortDescription>
+        <value>AAFP ID Number</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Aafp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Aafp</shortDescription>
+        <value>Aafp</value>
+    </labels>
+    <labels>
+        <fullName>Fon_AafpEmail</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_AafpEmail</shortDescription>
+        <value>aafp@aafp.org</value>
+    </labels>
+    <labels>
+        <fullName>Fon_AccountTypeLabel</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_AccountTypeLabel</shortDescription>
+        <value>Account Type</value>
+    </labels>
+    <labels>
+        <fullName>Fon_AddInv</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_AddInv</shortDescription>
+        <value>Add Another Invoice</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Address</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Address</shortDescription>
+        <value>11400 Tomahawk Creek parkway.Leawood,KS 62111-2680</value>
+    </labels>
+    <labels>
+        <fullName>Fon_An_email_confirming_payment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>An email confirming payment</shortDescription>
+        <value>An email confirming payment has been sent to the invoice owner(s) listed below. If you are paying AAFP dues you may find the</value>
+    </labels>
+    <labels>
+        <fullName>Fon_ConfirmationNumber</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ConfirmationNumber</shortDescription>
+        <value>Confirmation Number:</value>
+    </labels>
+    <labels>
+        <fullName>Fon_ContactToAAFP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_ContactToAAFP</shortDescription>
+        <value>Contact AAFP to assist</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Copyright</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Copyright</shortDescription>
+        <value>Copyright 2019 American Academy of family Physicians. All rights reserved.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Corporate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Corporate</shortDescription>
+        <value>Corporate</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Details</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Details</shortDescription>
+        <value>DETAILS</value>
+    </labels>
+    <labels>
+        <fullName>Fon_DonationAmt</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_DonationAmt</shortDescription>
+        <value>Donation Amount</value>
+    </labels>
+    <labels>
+        <fullName>Fon_DonationText1</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_DonationText1</shortDescription>
+        <value>Donations to your AAFP Foundation support important philanthropic work in family Medicine.Gifts are</value>
+    </labels>
+    <labels>
+        <fullName>Fon_DonationText2</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_DonationText2</shortDescription>
+        <value>voluntry and tax deductible.For more information, Please visit www.aafpfoundation.org.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_EmailId</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_EmailId</shortDescription>
+        <value>Enter Email Id</value>
+    </labels>
+    <labels>
+        <fullName>Fon_EmployeeNameMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_EmployeeNameMsg</shortDescription>
+        <value>Please enter Employee Name</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Fax</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Fax</shortDescription>
+        <value>913.906.6000</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Faxno</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Faxno</shortDescription>
+        <value>Fax 913.906.6075</value>
+    </labels>
+    <labels>
+        <fullName>Fon_INV</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_INV</shortDescription>
+        <value>Invoice #</value>
+    </labels>
+    <labels>
+        <fullName>Fon_InvInlist</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_InvInlist</shortDescription>
+        <value>Invoice already in list.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Invoice</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Invoice</shortDescription>
+        <value>INVOICE #</value>
+    </labels>
+    <labels>
+        <fullName>Fon_InvoicePaymentLabel</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_InvoicePaymentLabel</shortDescription>
+        <value>Invoice Payment:</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Log_in_to</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Log in to:</shortDescription>
+        <value>Log in to:</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Login</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Login</shortDescription>
+        <value>Log in</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Make_monthly_dues</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Make monthly dues</shortDescription>
+        <value>Make monthly dues installment payments</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Manage_My_AAFP_Dues</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage My AAFP Dues</shortDescription>
+        <value>Manage My AAFP Dues</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Manage_dues_auto_renewal</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Manage dues auto renewal</shortDescription>
+        <value>Manage dues auto renewal</value>
+    </labels>
+    <labels>
+        <fullName>Fon_NoAvailableSO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_NoAvailableSO</shortDescription>
+        <value>No available Sales Order</value>
+    </labels>
+    <labels>
+        <fullName>Fon_NoThanks</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_NoThanks</shortDescription>
+        <value>No Thanks</value>
+    </labels>
+    <labels>
+        <fullName>Fon_NonDeductible</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_NonDeductible</shortDescription>
+        <value>non-deductible percentage of dues for AAFP and chapters</value>
+    </labels>
+    <labels>
+        <fullName>Fon_NotFoundSalesOrder</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_NotFoundSalesOrder</shortDescription>
+        <value>Information entered does not match.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Number</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Number</shortDescription>
+        <value>800.274.2237</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Occupation</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Occupation</shortDescription>
+        <value>Occupation</value>
+    </labels>
+    <labels>
+        <fullName>Fon_OccupationMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_OccupationMsg</shortDescription>
+        <value>Please enter Occupation</value>
+    </labels>
+    <labels>
+        <fullName>Fon_OnOurWebsite</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_OnOurWebsite</shortDescription>
+        <value>on our website.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Open</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Open</shortDescription>
+        <value>Open</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Other</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Other</shortDescription>
+        <value>Other</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Owner</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Owner</shortDescription>
+        <value>OWNER</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PacDonationHeadText</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PacDonationHeadText</shortDescription>
+        <value>I would like to contribute the following amount to the FamMedPAC</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PacDonationText1</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PacDonationText1</shortDescription>
+        <value>FamMedPAC Information - Contributions to FamMedPAC are voluntary and the suggested contribution</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PacDonationText2</fullName>
+        <categories>Quickpay</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PacDonationText2</shortDescription>
+        <value>amounts are only guidelines. You will not be favored or disadvantaged by reason of the amount of your.</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Paid</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Paid</shortDescription>
+        <value>Paid</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PaidSO</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PaidSO</shortDescription>
+        <value>This Sales Order has already been paid</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PayAnotherInvoiceUrl</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PayAnotherInvoiceUrl</shortDescription>
+        <value>https://fontevad2-fontevacustomer-160ec05bb8f.cs17.force.com/aafp/s/quick-pay-service</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PayInvoice</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PayInvoice</shortDescription>
+        <value>Pay Another Invoice</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PaymentAmount</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PaymentAmount</shortDescription>
+        <value>PAYMENT AMOUNT</value>
+    </labels>
+    <labels>
+        <fullName>Fon_PaymentConfirmation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_PaymentConfirmation</shortDescription>
+        <value>Payment Confirmation</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Personal</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Personal</shortDescription>
+        <value>Personal</value>
+    </labels>
+    <labels>
+        <fullName>Fon_QuickPayConfirmation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>QuickPayConfirmation</shortDescription>
+        <value>Quick Pay Confirmation</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Quick_Pay</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Quick Pay</shortDescription>
+        <value>Quick Pay</value>
+    </labels>
+    <labels>
+        <fullName>Fon_SystemAdministrator</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_SystemAdministrator</shortDescription>
+        <value>System Administrator</value>
+    </labels>
+    <labels>
+        <fullName>Fon_ThankyouforPayment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ThankyouforPayment</shortDescription>
+        <value>Thank you for your payment!</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Total</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_Total</shortDescription>
+        <value>Total:</value>
+    </labels>
+    <labels>
+        <fullName>Fon_TotalAmt</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_TotalAmt</shortDescription>
+        <value>Total Amount: $</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Total_Invoice_Payment</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Total Invoice Payment</shortDescription>
+        <value>Total Invoice Payment</value>
+    </labels>
+    <labels>
+        <fullName>Fon_Transaction_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Transaction Date</shortDescription>
+        <value>Transaction Date:</value>
+    </labels>
+    <labels>
+        <fullName>Fon_View_your_dues_invoices</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View your dues invoices</shortDescription>
+        <value>View your dues invoices</value>
+    </labels>
+    <labels>
+        <fullName>Fon_donateMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_donateMsg</shortDescription>
+        <value>I would like to donate $50 to AAFP Foundation</value>
+    </labels>
+    <labels>
+        <fullName>Fon_review</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_review</shortDescription>
+        <value>Payment Review--AAFP</value>
+    </labels>
+    <labels>
+        <fullName>Fon_url</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>url</shortDescription>
+        <value>http://www.aafp.org/about/membership/services/deduct-dues.html</value>
+    </labels>
+    <labels>
+        <fullName>Fon_valid_EmailAddress</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>valid_EmailAddress</shortDescription>
+        <value>Please Enter Valid Email Address</value>
+    </labels>
+    <labels>
+        <fullName>Fon_value1</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_value1</shortDescription>
+        <value>50</value>
+    </labels>
+    <labels>
+        <fullName>Fon_value2</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_value2</shortDescription>
+        <value>100</value>
+    </labels>
+    <labels>
+        <fullName>Fon_value3</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_value3</shortDescription>
+        <value>365</value>
+    </labels>
+    <labels>
+        <fullName>Fon_value4</fullName>
+        <categories>QUICKPAY</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Fon_value4</shortDescription>
+        <value>0</value>
+    </labels>
+</CustomLabels>

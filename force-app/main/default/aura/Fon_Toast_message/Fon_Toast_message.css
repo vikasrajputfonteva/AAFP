@@ -1,0 +1,5 @@
+@media all and (max-width: 1022px) {
+    .THIS .xyz{
+            min-width: 24rem !Important;
+    }
+}

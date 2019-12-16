@@ -1,0 +1,25 @@
+<aura:component controller="Fon_SelectPaymentMethod">
+    <aura:attribute name="contactId" type="String"></aura:attribute>
+    <aura:attribute name="paymentMethods" type="List" access="public"/>
+    <aura:attribute Name="selectedPayment" type="String"  access="public" />
+    <aura:handler  name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:attribute name="returnURL" type="String"/>
+
+    <div class="slds-wrap slds-p-around--medium slds-grid slds-border_bottom slds-border_right slds-border_left" style="background-color: white;padding: 62px;">
+        <div class="slds-col slds-size_2-of-12"></div>
+        <div class="slds-col slds-size_2-of-12" style="color: green;margin-top: 3px;">Select Payment Method</div>
+        <div class="slds-col slds-size_4-of-12">
+            <lightning:select  name="selectPymentMethod" value="{!v.selectedPayment}" onchange="{!c.selectedPaymentMethod}" >
+                <option value=""/>
+                <aura:iteration items="{!v.paymentMethods}" var="pm">
+                    <option text="{!pm.label}" value="{!pm.value}"/>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+       
+        <div class="slds-col slds-size_3-of-12"> 
+            <lightning:button variant="brand" label="{!$Label.c.GoToMemberApp}" title="{!$Label.c.GoToMemberApp}" onclick="{!c.handleClick}"/>
+        </div>
+        <div class="slds-col slds-size_2-of-12"></div>
+    </div>
+</aura:component>

@@ -1,0 +1,13 @@
+.THIS {
+}
+
+.THIS .customfooter{
+   position: fixed !important;
+   left: 0 !important;
+   bottom: 0 !important;
+   width: 100% !important;
+   background-color: rgb(21, 137, 238) !important;
+   color: white !important;
+   text-align: center !important;
+   padding: 15px 0px 15px;
+}

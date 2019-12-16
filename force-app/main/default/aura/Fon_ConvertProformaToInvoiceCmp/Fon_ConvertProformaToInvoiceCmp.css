@@ -1,0 +1,46 @@
+.THIS {
+}
+
+.THIS .buttonColor{
+    background-color: #04844b !important;
+}
+.THIS .buttonColor svg{
+    fill:white !important;
+}
+.THIS .successButtonColor{
+    background-color: #04844b !important;
+}
+.THIS .successButtonColor svg{
+    fill:white !important;
+}
+
+.THIS .errorButtonColor{
+    background-color: rgb(194, 57, 52) !important;
+}
+.THIS .errorButtonColor svg{
+    fill:white !important;
+}
+.THIS .custombutton{
+    width:15%;
+    float:right;
+    display: block;
+    margin-top: 20px;
+    padding: 0;
+
+}
+.THIS .crossbutton{
+    width: 2rem;
+    height: 2rem;
+    right: 1.5rem;
+    float: right;
+    top: -2rem;
+}
+               
+
+.THIS p{
+    border-top-right-radius:0.25rem;
+    border-top-left-radius:0.25rem;
+    border-bottom: 2px solid rgb(221, 219, 218);
+    border-top: 2px solid rgb(221, 219, 218);
+    padding: 1rem;
+}

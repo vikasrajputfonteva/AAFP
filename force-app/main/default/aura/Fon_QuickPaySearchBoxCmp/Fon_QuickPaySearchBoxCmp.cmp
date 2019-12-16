@@ -1,0 +1,65 @@
+<aura:component access="global" implements="forceCommunity:availableForAllPageTypes" controller="Fon_QuickPayMainFrameCtrl">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="cbaseURL" type="String"/>
+    <aura:attribute name="disable" type="String" default="true" ></aura:attribute>
+    <aura:attribute name="AFFPID" type="Integer"></aura:attribute>
+    <aura:attribute name="INVOICEID" type="String"></aura:attribute>
+    <aura:attribute name="lstSalesOrder" type="List" />
+    <aura:attribute name="totalInvoiceAmount" type="Decimal" />
+    <aura:attribute name="toastwindowMain" type="Boolean" default="false"/>
+    <aura:attribute name="msg" type="String" />
+    
+    <c:Fon_Toast_message toastwindow="{!v.toastwindowMain}" message="{!v.msg}"/>
+    <div class="slds-grid slds-wrap" >
+        <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12" style="padding: 10px;border-bottom: 4px solid #cf7f00;">
+            <img src="{!$Resource.FON_AAFP_logo}" style="width: 175px;"/> 
+        </div>
+        <div class="slds-col slds-size_12-of-12 slds-large-size_12-of-12" >
+            <hgroup class="horizontal-gradient">
+                <h1 class="ho" style="font: normal 38px/44px 'Times New Roman', serif;">{!$Label.c.Fon_Quick_Pay}</h1>
+            </hgroup>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap slds-p-around--medium" style="background-color: white;"> 
+        <div class="slds-col slds-large-size_8-of-12">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-8" style="padding-right: 10px;">
+                    <lightning:input aura:id="aafpTXT" value="{!v.AFFPID}" type="text" name="AAFPId" label="{!$Label.c.Fon_AAFPID}" placeholder="{!$Label.c.Fon_7DigitId}" onchange="{!c.keyPressCheck}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-8" style="padding-right: 10px;">
+                    <lightning:input aura:id="invoiceTXT" value="{!v.INVOICEID}" type="text" name="InvoiceId" label="{!$Label.c.Fon_Order}" placeholder="{!$Label.c.Fon_7DigitCode}" onchange="{!c.keyPressCheck}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-8 btnCls"> 
+                    <input type="button" class="addBtn" disabled="{!v.disable}" Value="{!$Label.c.Fon_AddInv}" onclick="{!c.addAnotherInvoice}" />
+                </div>
+            </div>
+            
+            
+            <!--   <aura:if isTrue="{!v.totalInvoiceAmount > 0}">
+                <aura:set attribute="else">
+                    <div class="slds-col slds-size_12-of-12 slds-large-size_8-of-8 addInvoicePrompt">
+                        <img src="{!$Label.c.Fon_QuickPayInvoice}" style="invImg" /> 
+                        <span>Add an Invoice Above</span>
+                    </div>
+                </aura:set>
+            </aura:if>  -->
+            
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 float-right">
+            <div class="calloutbox highlights flex-default margin-top margin-bottom">
+                <div class="container gradient-white" style="padding: 0px 22px 0px 18px;">
+                    <h4 class="cob-title">{!$Label.c.Fon_Manage_My_AAFP_Dues}</h4>
+                    <div class="content">
+                        <p>{!$Label.c.Fon_Log_in_to}</p>
+                        <ul style="margin: 10px 20px 0;padding: 0;list-style-type: square;">
+                            <li>{!$Label.c.Fon_View_your_dues_invoices}</li>
+                            <li>{!$Label.c.Fon_Make_monthly_dues}</li>
+                            <li>{!$Label.c.Fon_Manage_dues_auto_renewal}</li>
+                        </ul>
+                        <a class="button button-tertiary" style="text-decoration: none;" href="{!v.cbaseURL + '/s/login'}" title="Check My Dues">{!$Label.c.Fon_Login}<span></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

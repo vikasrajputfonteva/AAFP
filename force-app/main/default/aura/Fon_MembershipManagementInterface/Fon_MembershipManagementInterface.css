@@ -1,0 +1,96 @@
+.THIS .custom-button:hover {
+    /*background-color: #3385ff !important;*/
+    color: #1B5297;
+    background: none;
+}
+.THIS .custom-button1:hover {
+    /*background-color: #3385ff !important;*/
+    color: #1B5297;
+    background: none;
+}
+
+.THIS .custom-header-font{
+    font-size: 180%;
+    font-weight: 900;
+}
+.THIS .custom-button{
+    background-color: #1b5297;
+    width: 50%;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 1px 1px;
+    transition-duration: .4s;
+    cursor: pointer;
+    
+}
+
+.THIS .custom-bg-color{
+    background-color: #F3F2F2;
+}
+.THIS .custom-table-td-width{
+    width: 40%
+}
+.THIS .custom-background {
+    background-color: #F3F2F2 !important;
+}
+.THIS .custom-button1{
+    background-color: #1b5297;
+    width: 25%;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 1px 1px;
+    transition-duration: .4s;
+    cursor: pointer;
+    
+}
+
+@media(min-width:1199px) and (max-width:1699px){
+    .THIS .custom-button{
+        width: 80%;
+    }
+    .THIS .custom-button1{
+        width: 50%;
+    }
+}
+@media(min-width:992px) and (max-width:1199px){
+    .THIS .custom-button{
+        width: 95%;
+    }
+    .THIS .custom-button1{
+        width: 50%;
+    }
+}
+
+@media(min-width:768px) and (max-width:991px){
+    .THIS .custom-button{
+        width: 90%;
+    }  
+    .THIS .custom-button1{
+        width: 60%;
+    }
+    .THIS .custom-header-font {
+        font-size: 90%;      
+    }
+}
+
+@media(min-width:300px) and (max-width:767px){
+    .THIS .custom-button{
+        width: 90%;
+    }
+    .THIS .custom-button1{
+        width: 90%;
+    }
+    .THIS .custom-header-font {
+        font-size: 90%;      
+    }
+}

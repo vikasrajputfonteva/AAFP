@@ -1,0 +1,111 @@
+<aura:component controller="Fon_ConvertProformaToInvoiceController" implements="force:lightningQuickAction,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="myMap" type="Map" />
+    <aura:attribute name="msg" type="String"/>
+    <aura:attribute name="showToast" type="Boolean" default="false" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <ltng:require scripts="{!join(',', $Resource.OrderApi__SLDS_Base+'/js/scripts.js', $Resource.Framework__UrlUtil)}" 
+                  styles="{!$Resource.OrderApi__SLDS_Base+'/css/styles.css'}" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    
+    <aura:html tag="style">
+        
+        .modal-body {
+        background: transparent !important;
+        box-shadow: none !important;
+        }
+        .slds-modal__header--empty {
+        display: none !important;
+        }
+        .modal-container{
+        width: 100% !important;
+        max-width: 100% !important;
+        }
+        .slds-modal__header {
+        display:none;
+        }
+        .slds-modal__footer{
+        display:none;
+        }
+        .slds-modal__content {
+        overflow: hidden;
+        overflow-x: hidden !important;
+        overflow-y: auto;
+        overflow-y: auto;
+        padding-top:50px !important;
+        }
+        .slds-spinner_container{
+        background-color:transparent !important;
+        }
+        
+    </aura:html>
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+    <!-- Loading spinner end-->  
+    <!--toast message begin -->
+    <aura:if isTrue="{!v.showToast}"> 
+        <div class="slds-notify_container" style="margin-top:4%;text-align:center;">
+            <div class="slds-notify slds-notify--toast slds-theme--success " role="alert" style="min-width: auto;">
+                <span class="slds-assistive-text">Success</span>
+                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                    <lightning:icon alternativeText="Success" iconName="utility:success" size="small"
+                                    class="successButtonColor slds-m-right_small" />
+                </span>
+                <div class="notify__content slds-grid">                       
+                    <span class="slds-icon__container ">
+                        <span class="slds-assistive-text">Alert</span>
+                    </span>
+                    <div class="slds-col slds-align-middle" style="position:relative;" >
+                        <h2 class="slds-text-heading--small ">{!$Label.c.Fon_SuccessMessage}</h2>
+                    </div>
+                    <div class="slds-notify__close">
+                        <lightning:icon alternativeText="Close" iconName="utility:close" size="small" class="buttonColor slds-m-right_small" onclick="{!c.goBack}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <!--toast message end-->
+    <!--modalpopup for error-->
+    <aura:if isTrue="{!v.showError}">
+        <div class="demo-only demo-only_viewport" style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" >
+                    
+                    <header class="slds-modal__header">
+                        
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Error</h2>
+                        
+                    </header>
+                    <div class="crossbtnmargin">
+                        <lightning:buttonIcon iconName="utility:close" variant="bare-inverse" onclick="{! c.closeClick }" alternativeText="Cancel"  class="crossbutton"/> 
+                        
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            
+                            <p style=" font-size: 15px;">{!v.msg}</p>
+                            <lightning:button variant="brand" label="Continue" title="Brand action" onclick="{! c.closeClick }" class="custombutton" />
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if> 
+    <!--modalpopup for error-->
+</aura:component>

@@ -1,0 +1,60 @@
+<aura:component controller= "Fon_CustomPaymentMethodCtrl" description="PaymentMethods" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="ContactId" type="String"/>
+    <aura:attribute name="Token" type="String"/>
+    <aura:attribute name="returnURL" type="String"/>
+    <aura:attribute name="pmID" type="String"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="showPicklist" type="boolean" default="false"/>
+    <aura:attribute name="showOldCmp" type="boolean" default="false"/>
+    
+    <header class="slds-global-header_container">
+        <div class="slds-global-header slds_bg_color">
+            <div class="slds-global-header__item"></div>
+            <div class="slds-global-header__item slds-global-header__item_search"></div>
+            <div class="slds-global-header__item"></div>
+        </div>
+    </header>
+    <br/><br/>
+    <aura:if isTrue="{!v.showOldCmp}">
+        <div class="slds-text-align_center slds-text-heading_medium slds-border_bottom">
+            <div><strong>Payment Methods</strong></div><br/>
+        </div>
+        <div aura:id="custompaymentmethod" />
+        <div class="slds-align_absolute-center">
+            <lightning:button variant="brand" label="{!$Label.c.GoToMemberApp}" title="{!$Label.c.GoToMemberApp}" onclick="{!c.handleClick}"/>
+        </div>    
+    </aura:if>
+    <aura:if isTrue="{!v.showPicklist}">
+        <div class="slds-text-align_center slds-text-heading_medium slds-border_bottom">
+            <div><strong>{!$Label.c.Fon_SelectPaymentMethod}</strong></div><br/>
+        </div>
+        <c:Fon_SelectPaymentMethodCmp contactId="{!v.ContactId}"></c:Fon_SelectPaymentMethodCmp>
+        <br/><br/>
+        <div class="slds-align_absolute-center">
+            <lightning:button variant="brand" label="{!$Label.c.Fon_CreateNewPaymentMethod}" title="{!$Label.c.Fon_CreateNewPaymentMethod}" onclick="{!c.createNewPaymentMethod}"/>
+        </div>
+    </aura:if>
+    <!-- <a href="{!v.returnURL}" target="_Blank"> Go back to member app</a> -->
+    
+    <!-- <a onclick="{!c.handleClick}">{!$Label.c.GoToMemberApp}</a> -->
+    <aura:if isTrue="{!v.isOpen}">
+        <div style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_inverse">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add Payment Method</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>Please add a Payment Method</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand"  label="Close" title="Close" onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+        </div>
+    </aura:if>
+</aura:component>

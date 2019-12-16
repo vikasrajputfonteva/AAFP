@@ -1,0 +1,52 @@
+<aura:component controller="Fon_UploadCSV" access="GLOBAL" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,lightning:isUrlAddressable">
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    <aura:attribute name="disable" type="Boolean" Default="true"></aura:attribute>
+    
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <aura:attribute name="data" type="Fon_Membership_Staging__c[]" /> 
+    <aura:attribute name="objMembershipStage" type="sObject"/>
+    <aura:attribute name="mapKeyToColumnName" type="Map" />
+    
+    
+    <div style="border: 2px solid black;" class="slds-modal--large" aura:id="mainFrameDiv">
+        <div class="custom-bg-color">	
+              <!--loading spinner start... style=Brand Medium (blue dots)-->
+                <aura:if isTrue="{!v.Spinner}">
+                    <div aura:id="spinnerId" class="slds-spinner_container">
+                        <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                            <span class="slds-assistive-text">Loading</span>
+                            <div class="slds-spinner__dot-a"></div>
+                            <div class="slds-spinner__dot-b"></div>
+                        </div>
+                    </div>
+                </aura:if>
+                <!-- Loading spinner end-->
+            <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large slds-border_bottom">
+                <span class="custom-header-font" style="font-weight: bold;">Upload File</span>
+            </div>
+            <br/>
+            <div class="slds-grid slds-grid_vertical" style="text-align:center">
+                <div class="slds-col">
+                    <lightning:input aura:id="fileId" accept=".csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onchange="{!c.handleFilesChange}" onclick="{! c.handleFileClick }" type="file" name="file"  multiple="false"/>
+                    <div class="slds-text-body_small slds-text-color_error">{!v.fileName} </div>
+                </div>
+                <br/>
+                <div class="slds-col">
+                    <lightning:button variant="brand" label="Process File" title="Process File" onclick="{! c.handleClick }" disabled="{!v.disable}"/>
+                </div>
+                <div class="slds-col">
+                    <aura:if isTrue="{!v.showLoadingSpinner}">
+                        <div class="slds-text-body_small slds-text-color_error">Uploading... 
+                            <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+            <br/>
+        </div>
+        
+    </div>
+</aura:component>

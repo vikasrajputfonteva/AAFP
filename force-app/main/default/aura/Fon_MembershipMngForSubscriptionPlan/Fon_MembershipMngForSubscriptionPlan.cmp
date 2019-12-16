@@ -1,0 +1,44 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="Fon_SubscriptionPlanCtrl">
+    <aura:attribute name="isComponentLoading" type="Boolean" default="true"/>
+    <aura:attribute name="selectedSuscribePlanId" type="String" />
+    <aura:attribute name="contactId" type="String" />  
+    <aura:attribute name="activeMembershipId" type="String" />
+    <aura:attribute name="objActiveSubscription" type="OrderApi__Subscription__c" />
+	<aura:attribute name="lstSubscriptionPlan" type="sObject[]"  />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <lightning:spinner aura:id="serverStatusSpinner" /> ====================
+    <aura:if isTrue="{!not(v.isComponentLoading)}">
+        <div >
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                     class="slds-modal slds-fade-in-open custom-background" > <!-- style="height: 70%;" -->
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header custom-background slds-p-top_none slds-p-bottom_none " >
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeModalView}">
+                            <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div>
+                    <header class="slds-modal__header slds-theme_inverse ">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_ChangeSubscriptionPlan}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium form-group" id="modal-content-id-1" style="height: 12%;" >
+                        <lightning:select value="{!v.selectedSuscribePlanId}" onchange="{!c.changeValue}" class="customHeight" label="Subscription Plan">       
+                            <option value="">Choose one...</option>
+                            <aura:iteration items="{!v.lstSubscriptionPlan}" var="eachPlan">
+                                <option value="{!eachPlan.planId}">
+                                    {!eachPlan.planName}
+                                </option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <lightning:button variant="brand" type="submit" name="Update Subscription" label="Update Subscription" onclick="{! c.updateSubscription}"/>
+                        <lightning:button variant="neutral" name="Cancel" label="Cancel" onclick="{! c.cancelView}"/>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </aura:if> 
+</aura:component>

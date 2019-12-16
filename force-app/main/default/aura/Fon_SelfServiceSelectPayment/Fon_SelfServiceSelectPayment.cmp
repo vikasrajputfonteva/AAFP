@@ -1,0 +1,71 @@
+<aura:component controller="Fon_SelfServiceSelectPayment" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="ContactId" type="String"/>
+    <aura:attribute name="Token" type="String"/>
+    <aura:attribute name="returnURL" type="String"/>
+    <aura:attribute name="pmID" type="String"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="showPicklist" type="boolean" default="false"/>
+    <aura:attribute name="showOldCmp" type="boolean" default="false" />
+    
+    <aura:attribute name="lstPaymentMethods" type="List" access="public"/>
+    <aura:attribute Name="selectedPayment" type="String"  access="public" />
+    <aura:attribute name="IsSpinner" type="Boolean" default="false" />
+    
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner variant="brand" size="large"/>
+    </aura:if>
+    <aura:if isTrue="{!v.showPicklist}">
+        <div class="slds-m-bottom_small LTESubscriptions">
+            <div class="pfm-card slds-card LTECard" style="border:none!Important">
+                <div class="slds-card__body slds-card__body_inner " >
+                    <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                        <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                            <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                                <div class="slds-col slds-grid slds-grid_vertical" >
+                                    <lightning:select value="{!v.selectedPayment}" label="Select Payment Method" >
+                                        <option value="">--None--</option>
+                                        <aura:iteration items="{!v.lstPaymentMethods}" var="pm">
+                                            <option text="{!pm.strLabel}" value="{!pm.strValue}"/>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds-align_absolute-center">
+            <lightning:button variant="brand" class="addBtn" label="{!$Label.c.Fon_CreateNewPaymentMethod}" title="{!$Label.c.Fon_CreateNewPaymentMethod}" onclick="{!c.createNewPaymentMethod}"/>
+        </div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showOldCmp}">
+        <div aura:id="custompaymentmethod" />
+        <div class="slds-align_absolute-center">
+            <lightning:button variant="brand" label="{!$Label.c.Fon_ChooseNewPayment}" onclick="{!c.backHandleClick}" class="addBtn"/>
+        </div>    
+    </aura:if>
+    <aura:if isTrue="{!v.isOpen}">
+        <div style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_inverse">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Add Payment Method</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>Please add a Payment Method</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand"  label="Close" title="Close" onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+        </div>
+    </aura:if>
+</aura:component>

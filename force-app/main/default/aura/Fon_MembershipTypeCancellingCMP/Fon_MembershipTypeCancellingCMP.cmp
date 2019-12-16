@@ -1,0 +1,96 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="Fon_MembershipManagementInterfaceCtrl">
+    <aura:attribute name="contactId" type="String" access="global"/>
+    <aura:attribute name="activeMembershipId" type="String" />
+    <aura:attribute name="ShowModule" type="boolean" default="true"/> 
+    <aura:attribute name="showCancelReasonModal" type="boolean" default="false"/> 
+    <lightning:spinner aura:id="serverStatusSpinner" class="slds-hide"/>
+    <aura:attribute name="showConfirm" type="Boolean" default="false;"></aura:attribute>
+    <aura:attribute name="fieldsObj" type="Object" ></aura:attribute>
+    
+    <aura:method name="recordSubmittedMethod" action="{!c.recordSubmitted}" ></aura:method>
+    
+    <aura:if isTrue="{!v.ShowModule}"> 
+        <div class="" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                     class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_inverse">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_Change_Membership_Type}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:recordEditForm onsubmit="{!c.recordSubmitted}"
+                                                  onsuccess="{!c.actionOnSuccess}"
+                                                  recordId="{!v.activeMembershipId}"
+                                                  objectApiName="Fon_Membership_Staging__c"
+                                                  aura:id="membershipEditForm" >
+                            <!-- the messages component is for error messages -->
+                            <lightning:inputField fieldName="Name" disabled="true"/>
+                            <lightning:inputField fieldName="Fon_Membership_Type__c"/>  
+                            <lightning:inputField fieldName="Fon_Subscription_Plan__c"/>
+                            <lightning:inputField fieldName="Fon_Staging_Status__c" disabled="true"/>
+                            <lightning:inputField fieldName="Fon_Membership_State__c" disabled="true"/>
+                            <lightning:inputField fieldName="Fon_Membership_Local__c" disabled="true"/>
+                            <!-- <lightning:inputField fieldName="Fon_Other_Price_Override__c" disabled="true"/> -->
+                            <lightning:inputField fieldName="Fon_Join_Date__c" disabled="true"/>
+                           <footer class="slds-modal__footer">
+                                <lightning:button variant="brand" type="submit" name="Process" label="Process" />
+                                <lightning:button variant="neutral" name="Cancel" label="Cancel" onclick="{!c.closeModal}"/>
+                            </footer>
+                        </lightning:recordEditForm>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </aura:if>  
+    
+    <aura:if isTrue="{!v.showConfirm}"> 
+        <div style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                     class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeModal}">
+                            <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_ConfirmHeading}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1" style="text-align:center">
+                        {!$Label.c.Fon_ConfirmationMessage}
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand" onclick="{!c.continueButtonClick}">Continue</button>
+                        <button class="slds-button slds-button_neutral" onclick="{!c.backButtonClick}">Back</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div> 
+    </aura:if>
+    
+    <aura:if isTrue="{!v.showCancelReasonModal}">
+        <div style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" 
+                     class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeModal}">
+                            <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_ReasonForCancellingSubscription}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:input type="text" name="reason" label="Cancelled Reason" value="{!v.reasonForCancelling}"/> 
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand" onclick="{!c.continuetoCancel}">Continue</button>
+                        <button class="slds-button slds-button_neutral" onclick="{!c.closeCancelModalView}">Back</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>        
+    </aura:if>
+</aura:component>

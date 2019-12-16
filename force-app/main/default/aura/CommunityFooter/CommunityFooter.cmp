@@ -1,0 +1,8 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	
+    <div class="">
+        <div class="customfooter">
+            <p>Footer</p>
+        </div>
+    </div>
+</aura:component>

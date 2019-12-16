@@ -1,0 +1,37 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,lightning:isUrlAddressable" 
+                access="global">
+    <div style="border: 2px solid black;" class="slds-modal--large" aura:id="mainFrameDiv">
+        <div class="custom-bg-color">			
+            <div class="slds-grid slds-wrap custom-bg-color ">
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_xx-small">
+                    
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-text-heading_large slds-border_bottom">
+                    <span class="custom-header-font">Custom Demo</span>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_x-large">
+                    
+                </div>
+                
+                <div class="slds-col slds-size_1-of-6">
+                    <span><button class="slds-button slds-button_brand slds-float_right custom-button" onclick="{!c.navigateNext}">Custom Payment Method</button></span>
+                </div>
+                <div class="slds-col slds-size_2-of-6 slds-align_absolute-center">
+                    <span></span>
+                </div>
+                
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-top_x-large">
+                    
+                </div>
+                
+                <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
+                    <span></span>
+                </div>
+                
+                <div class="slds-col slds-size_1-of-1 slds-m-top_medium">
+                    <span></span>
+                </div>
+            </div>	
+        </div>	
+    </div>
+</aura:component>

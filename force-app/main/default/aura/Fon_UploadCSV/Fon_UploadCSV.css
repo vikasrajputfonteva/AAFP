@@ -1,0 +1,7 @@
+.THIS .custom-bg-color{
+    background-color:white;
+}
+.THIS.slds-spinner_container {  
+  z-index: 10000;
+  position: fixed;   
+}

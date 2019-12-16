@@ -1,0 +1,71 @@
+<aura:component controller="Fon_ApplyCredits" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <aura:attribute name="showToast" type="Boolean" default="false" />
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="recordIds" type="String" />   
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <ltng:require scripts="{!join(',', $Resource.OrderApi__SLDS_Base+'/js/scripts.js', $Resource.Framework__UrlUtil)}" 
+                  styles="{!$Resource.OrderApi__SLDS_Base+'/css/styles.css'}" />
+    
+    <!--loading spinner start... style=Brand Medium (blue dots)-->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+    <!-- Loading spinner end-->  
+    <!--toast message begin -->
+    <aura:if isTrue="{!v.showToast}"> 
+        <div class="demo-only demo-only_viewport" style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Alert</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p style=" font-size: 15px;">{!$Label.c.Fon_BatchStarted}</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand" label="Ok" title="Brand action" onclick="{!c.backClick}" />
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        
+    </aura:if>
+    <!--toast message end-->
+    <!--modalpopup for error-->
+    <aura:if isTrue="{!v.showError}">
+        <div class="demo-only demo-only_viewport" style="height:640px">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                            <lightning:buttonIcon iconName="utility:close" variant="bare-inverse" onclick="{!c.backClick}" alternativeText="Cancel" size="30px" />
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Warning</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p style=" font-size: 15px;">{!$Label.c.Fon_validation_no_records_selected}</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="brand" label="Back" title="Brand action" onclick="{!c.backClick}" />
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if> 
+    <!--modalpopup for error-->
+</aura:component>

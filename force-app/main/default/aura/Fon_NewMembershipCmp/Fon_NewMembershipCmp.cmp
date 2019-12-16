@@ -1,0 +1,229 @@
+<aura:component controller="Fon_NewMembershipController" implements="lightning:isUrlAddressable" access="global" >
+    <aura:attribute name="recordTypeId" type="String" />
+    <aura:attribute name="contactId" type="String" access="global"/>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sectionHeader" type="String"  default="Membership Staging"/>
+    <aura:attribute name="sectionfieldSetName" type="String" default="Fon_membership_staging_fs" />
+    <aura:attribute name="sectionFields" type="Object[]"  />
+    <aura:attribute name="ShowModule" type="boolean" default="true"/> 
+    <aura:attribute name="isChapterIdDisable" type="boolean" default="true"/>
+    <aura:attribute name="isResidencyDisable" type="boolean" default="true"/>
+    <aura:attribute name="isPaymentMethodDisable" type="boolean" default="false"/>
+    <aura:attribute name="chapterId" type="String"/>   
+    <aura:attribute name="residencyId" type="String"/>
+    <aura:attribute name="chapterAccountId" type="ID"/>
+    <aura:attribute name="residencyAccountId" type="ID"/>
+    <aura:attribute name="paymentId" type="String"/>
+    <aura:attribute name="paymentMethodId" type="ID"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showOrHide" type="Boolean" default="true"/>
+    <aura:attribute name="isDonationDisable" type="boolean" default="true"/> 
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    
+    <aura:attribute name="isFoundationDonationRenewalDisable" type="boolean" default="true"/>
+    
+    <aura:attribute name="test" type="String"/>
+    <!-- Code for change member type -->
+    <aura:attribute name="isUpgrade" type="boolean" default="false"/> 
+    <aura:attribute name="changeMemberTypeFieldSetName" type="String" default="Fon_ChangeMemberType" />
+    <!-- Code for change member type -->
+    
+    <aura:if isTrue="{!v.ShowModule}">
+        <div class="demo-only" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_inverse">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_CreateMembershipStaging}</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <aura:if isTrue="{!v.isUpgrade}">
+                            <lightning:recordEditForm aura:id="MemStag" objectApiName="Fon_Membership_Staging__c" onsuccess="{!c.savedSuccessfully}" onerror="{!c.pageError}" onsubmit="{!c.handleSubmit}">
+                                <lightning:messages />
+                                <div style="background: white;">
+                                    <div class="slds-page-header_vertical"><br/>
+                                        <aura:iteration items="{!v.sectionFields}" var="field">
+                                            <aura:if isTrue="{!if(field.APIName=='Fon_Foundation_Donation_Renewal__c' || 
+                                                             field.APIName=='Fon_PAC_Contribution_Information__c' || 
+                                                             field.APIName=='Fon_Foundation_Contribution_Information__c' || 
+                                                             field.APIName=='Fon_Dues_Paid_by_Chapter__c' || 
+                                                             field.APIName=='Fon_Dues_Paid_by_Residency_Program__c' || 
+                                                             field.APIName=='Fon_isPostingEntityInvoice__c' || 
+                                                             field.APIName=='Fon_Chapter_Id__c' || 
+                                                             field.APIName=='Fon_Generate_New_Invoice__c' || 
+                                                             field.APIName=='Fon_Membership_Type__c' ||
+                                                             field.APIName=='Fon_Residency_Program_Graduation_Date__c',true,false)}">
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Dues_Paid_by_Chapter__c',true,false)}">
+                                                    <lightning:inputField fieldName="{!field.APIName}" onchange="{!c.paidByChapter}" aura:id="duesPaidBychapter" />
+                                                </aura:if> 
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Dues_Paid_by_Residency_Program__c',true,false)}" >
+                                                    <lightning:inputField fieldName="{! field.APIName }" onchange="{!c.paidByResidency}" aura:id="duesPaidByResidencyID"/>
+                                                </aura:if> 
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Chapter_Id__c',true,false)}" >
+                                                    <lightning:inputField fieldName="{!field.APIName}" aura:id="chapterId" disabled="{!v.isChapterIdDisable}" value="{!v.chapterId}"/>
+                                                </aura:if> 
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Generate_New_Invoice__c',true,false)}" >
+                                                    <aura:if isTrue="{!v.isUpgrade}">
+                                                        <lightning:inputField fieldName="{!field.APIName}"/>         
+                                                    </aura:if> 
+                                                </aura:if> 
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_isPostingEntityInvoice__c',true,false)}" >
+                                                    <aura:if isTrue="{!v.showOrHide}">
+                                                        <lightning:inputField fieldName="{!field.APIName}"/>         
+                                                    </aura:if> 
+                                                </aura:if>
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_PAC_Contribution_Information__c',true,false)}" >
+                                                    <lightning:inputField fieldName="{!field.APIName}" value="{!field.defaultValue}" aura:id="pacContributionInformationId" disabled="{!field.isFieldDisable}"/>
+                                                </aura:if> 
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Foundation_Contribution_Information__c',true,false)}" >
+                                                    <lightning:inputField fieldName="{!field.APIName}" value="{!field.defaultValue}" aura:id="foundationContributionInformationId" disabled="{!field.isFieldDisable}"/>
+                                                </aura:if> 
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Foundation_Donation_Renewal__c',true,false)}">
+                                                    <lightning:inputField fieldName="{!field.APIName}" value="{!field.defaultBoolValue}"  aura:id="foundationDonationRenewalId" />
+                                                </aura:if>
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Membership_Type__c',true,false)}">
+                                                    <lightning:inputField aura:id="mainPicklist" fieldName="{!field.APIName}" value="{!field.defaultValue}"  />
+                                                </aura:if>
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Residency_Program_Graduation_Date__c',true,false)}">
+                                                    <lightning:inputField aura:id="resiPicklist" fieldName="{!field.APIName}"  />
+                                                </aura:if>
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Join_Date__c' || field.APIName=='Fon_Membership_Activation_Date__c' || field.APIName=='Fon_Chapter_Join_Date__c',true,false)}">
+                                                        <lightning:inputField fieldName="{! field.APIName }" value="{! field.currentDate }" disabled="{! field.isFieldDisable }"/> 
+                                                        <aura:set attribute="else">
+                                                            <aura:if isTrue="{!if(field.APIName == 'Fon_Payment_Method_Id__c' || field.APIName == 'Fon_Membership_State__c' || field.APIName == 'Fon_Membership_Local__c' || 
+                                                                             field.APIName == 'Fon_AAFP_Subscription_Plan_Picklist__c' || field.APIName == 'Fon_Year__c' || 
+                                                                             field.APIName == 'Fon_Subscription_Plan__c', true, false)}">
+                                                                <lightning:inputField fieldName="{! field.APIName }" value="{! field.defaultValue }" disabled="{! field.isFieldDisable }"/>         
+                                                                <aura:set attribute="else">
+                                                                    <lightning:inputField fieldName="{! field.APIName }" />
+                                                                </aura:set>
+                                                            </aura:if>         
+                                                        </aura:set> 
+                                                    </aura:if> 
+                                                </aura:set>
+                                            </aura:if> 
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                                <footer class="slds-modal__footer">
+                                    <lightning:button variant="brand" type="Submit" label="Save" title="Submit"/>
+                                    <lightning:button variant="neutral" label="Cancel" title="Hide Me" onclick="{!c.HideMe}"/>
+                                </footer>
+                            </lightning:recordEditForm>
+                            <aura:set attribute="else"><!-- New Membership -->
+                                <lightning:recordEditForm aura:id="MemStag"
+                                                          objectApiName="Fon_Membership_Staging__c"
+                                                          onsuccess="{!c.savedSuccessfully}"
+                                                          onerror="{!c.pageError}"
+                                                          onsubmit="{!c.handleOnSubmit}"
+                                                          >
+                                    <lightning:messages />
+                                    <div style="background: white;">
+                                        <div class="slds-page-header_vertical"><br/>
+                                            <aura:iteration items="{!v.sectionFields}" var="field">
+                                                <aura:if isTrue="{!if(field.APIName=='Fon_Foundation_Donation_Renewal__c' || 
+                                                                 field.APIName=='Fon_PAC_Contribution_Information__c' || 
+                                                                 field.APIName=='Fon_Foundation_Contribution_Information__c' || 
+                                                                 field.APIName=='Fon_Dues_Paid_by_Chapter__c' || 
+                                                                 field.APIName=='Fon_Dues_Paid_by_Residency_Program__c' || 
+                                                                 field.APIName=='Fon_isPostingEntityInvoice__c' || 
+                                                                 field.APIName=='Fon_Chapter_Id__c' || 
+                                                                 field.APIName=='Fon_Membership_Type__c' ||
+                                                                 field.APIName =='Fon_Chapter_Account__c' ||
+                                                                 field.APIName =='Fon_Residency_Account_ID__c' ||
+                                                                 field.APIName =='Fon_Residency_Account__c' ||
+                                                                 field.APIName =='Fon_Payment_Method_Id__c' ||
+                                                                 field.APIName =='Fon_Payment_Method__c' ||
+                                                                 field.APIName =='Fon_Medical_School_Graduation_Date__c' ||
+                                                                 field.APIName =='Fon_AAFP_Subscription_Plan_Picklist__c' ||
+                                                                 field.APIName=='Fon_Residency_Program_Graduation_Date__c',true,false)}">
+                                                    
+                                                    <!-- Chapter -->
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Dues_Paid_by_Chapter__c',true,false)}">
+                                                        <lightning:inputField fieldName="{!field.APIName}" onchange="{!c.paidByChapter}" aura:id="duesPaidBychapter" />
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Chapter_Account__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" disabled="{!v.isChapterIdDisable}" value="{!v.chapterAccountId}" />
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Chapter_Id__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" aura:id="chapterId" disabled="{!v.isChapterIdDisable}" value="{!v.chapterId}" />
+                                                    </aura:if> 
+                                                    <!-- Chapter -->
+                                                    <!-- Residency -->
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Dues_Paid_by_Residency_Program__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" onchange="{!c.paidByResidency}" aura:id="duesPaidByResidencyID"/>
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Residency_Account__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" disabled="{!v.isResidencyDisable}" value="{!v.residencyAccountId}"/>
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Residency_Account_ID__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" aura:id="residencyAccountId" disabled="{!v.isResidencyDisable}"  value="{!v.residencyId}" />
+                                                    </aura:if> 
+                                                    <!-- Residency -->
+                                                    <!-- Payment Method -->
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Payment_Method__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" disabled="{!v.isPaymentMethodDisable}" value="{!v.paymentMethodId}" />
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Payment_Method_Id__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" disabled="{!v.isPaymentMethodDisable}" value="{!v.paymentId}" />
+                                                    </aura:if> 
+                                                    <!-- Payment Method -->
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_isPostingEntityInvoice__c',true,false)}" >
+                                                        <aura:if isTrue="{!v.showOrHide}">
+                                                            <lightning:inputField fieldName="{!field.APIName}"/>         
+                                                        </aura:if> 
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_PAC_Contribution_Information__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" value="{!field.defaultValue}" aura:id="pacContributionInformationId" disabled="{!field.isFieldDisable}"/>
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Foundation_Contribution_Information__c',true,false)}" >
+                                                        <lightning:inputField fieldName="{!field.APIName}" value="{!field.defaultValue}" aura:id="foundationContributionInformationId" disabled="{!field.isFieldDisable}"/>
+                                                    </aura:if> 
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Foundation_Donation_Renewal__c',true,false)}">
+                                                        <lightning:inputField fieldName="{!field.APIName}" aura:id="foundationDonationRenewalId" disabled="{!v.isFoundationDonationRenewalDisable}" />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Membership_Type__c',true,false)}">
+                                                        <lightning:inputField aura:id="mainPicklist" fieldName="{!field.APIName}" value="{!field.defaultValue}"  />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Residency_Program_Graduation_Date__c',true,false)}">
+                                                        <lightning:inputField aura:id="resiPicklist" fieldName="{!field.APIName}"  />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_Medical_School_Graduation_Date__c',true,false)}">
+                                                        <lightning:inputField aura:id="medicalSchoolDate" fieldName="{!field.APIName}"  />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!if(field.APIName=='Fon_AAFP_Subscription_Plan_Picklist__c',true,false)}">
+                                                        <lightning:inputField aura:id="subscriptionPlanPicklist" fieldName="{!field.APIName}" onchange="{!c.changePlanPickList}"  />
+                                                    </aura:if>
+                                                    
+                                                    <aura:set attribute="else">
+                                                        <aura:if isTrue="{!if(field.APIName=='Fon_Join_Date__c' || field.APIName=='Fon_Membership_Activation_Date__c' || field.APIName=='Fon_Chapter_Join_Date__c',true,false)}">
+                                                            <lightning:inputField fieldName="{! field.APIName }" value="{! field.currentDate }" disabled="{! field.isFieldDisable }"/> 
+                                                            <aura:set attribute="else">
+                                                                <aura:if isTrue="{!if(field.APIName == 'Fon_Payment_Method_Id__c' || field.APIName == 'Fon_Membership_State__c' || field.APIName == 'Fon_Membership_Local__c' || 
+                                                                                 field.APIName == 'Fon_AAFP_Subscription_Plan_Picklist__c' || field.APIName == 'Fon_Year__c' || 
+                                                                                 field.APIName == 'Fon_Subscription_Plan__c', true, false)}">
+                                                                    <lightning:inputField fieldName="{! field.APIName }" value="{! field.defaultValue }" disabled="{! field.isFieldDisable }"/>         
+                                                                    <aura:set attribute="else">
+                                                                        <lightning:inputField fieldName="{! field.APIName }" />
+                                                                    </aura:set>
+                                                                </aura:if>         
+                                                            </aura:set> 
+                                                        </aura:if> 
+                                                    </aura:set>
+                                                </aura:if> 
+                                            </aura:iteration>
+                                        </div>
+                                    </div>
+                                    <footer class="slds-modal__footer">
+                                        <lightning:button variant="brand" type="Submit" label="Save" title="Submit"/>
+                                        <lightning:button variant="neutral" label="Cancel" title="Hide Me" onclick="{!c.HideMe}"/>
+                                    </footer>
+                                </lightning:recordEditForm>
+                            </aura:set>
+                        </aura:if> 
+                    </div>
+                </div>
+            </section>
+        </div>
+    </aura:if>  
+</aura:component>

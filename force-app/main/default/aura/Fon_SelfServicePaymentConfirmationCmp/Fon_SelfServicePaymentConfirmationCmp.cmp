@@ -1,0 +1,106 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" controller="Fon_SelfServicePaymentConfirmation" >
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="today" type="Date" />
+    <aura:attribute type="String" name="ConfirmationNumber"></aura:attribute>
+    <aura:attribute type="OrderApi__Receipt_Line__c[]" name="receiptLinelst"/>
+    <aura:attribute type="OrderApi__Receipt_Line__c[]" name="duesReceiptLinelst"/>
+    <aura:attribute name="foundationAmtDonation" type="Decimal" default="0" ></aura:attribute>
+    <aura:attribute name="packAmtDonation" type="Decimal" default="0"></aura:attribute>
+    <aura:attribute name="convenienceFeeAmt" type="Decimal" default="0"></aura:attribute>
+    <aura:attribute name="balanceDue" type="Decimal" default="0"></aura:attribute>
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="isInstallment" type="Boolean" default="false"  />
+    <aura:attribute name="isComingFromBackend" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="totalAmount" type="Decimal" default="0.00" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" ></aura:handler>
+    <aura:attribute name="btnLabel" type="String" default="{!$Label.c.Fon_BackToPortal}"></aura:attribute>
+   
+    <div class="slds-m-bottom_small">
+        <div class="pfm-card slds-card LTECard" style="border:none" >
+            <div class="slds-card__body slds-card__body_inner" >
+                <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                    <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                        <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                            <div class="slds-col slds-grid slds-grid_vertical" >
+                                <img src="{!$Resource.FON_AAFP_logo}" style="width: 100px;"/> 
+                                <hgroup class="horizontal-gradient">
+                                    <h1 class="h1Cls" style="font: normal 25px/44px 'Times New Roman', serif;">{!$Label.c.Fon_PaymentConfirmationHeading}</h1>
+                                </hgroup> 
+                                <div class="slds-p-top--medium" style="font-size:17px;padding-left: 8px;"> {!$Label.c.Fon_ConfirmationNumber}&nbsp;<b>{!v.ConfirmationNumber}</b></div>
+                                <div class="slds-p-top--medium" style="font-size:17px;padding-left: 8px;">{!$Label.c.Fon_Transaction_Date}&nbsp;<b><ui:outputDate format="MM/dd/yyyy" value="{!v.today}" /></b></div>
+                                <div class="slds-p-top--medium">
+                                    <table class="slds-table slds-table--bordered" style="border-top: none;border-bottom: none;">
+                                        <thead>
+                                            <tr class="slds-text-heading--label">
+                                                <th style="font-weight: bold;color: #000;">
+                                                    <b> {!$Label.c.Fon_Invoice} </b>
+                                                </th>
+                                                <th style="font-weight: bold;color: #000;">
+                                                    <b>{!$Label.c.Fon_Owner}</b>
+                                                </th>
+                                                <th style="font-weight: bold;color: #000;">
+                                                    <b>{!$Label.c.Fon_Details}</b>
+                                                </th>
+                                                <th style="font-weight: bold;color: #000;">
+                                                    <b>{!$Label.c.Fon_PaymentAmount}</b>
+                                                </th>
+                                            </tr>    
+                                        </thead>     
+                                        <tbody>
+                                            <aura:iteration items="{!v.receiptLinelst}" var="obj"> 
+                                                <tr>
+                                                    <td>
+                                                        {!obj.OrderApi__Sales_Order_Line__r.OrderApi__Sales_Order__r.Name}
+                                                    </td>
+                                                    <td>
+                                                        {!obj.OrderApi__Sales_Order_Line__r.OrderApi__Contact__r.Name}
+                                                    </td>
+                                                    <td>
+                                                        {!obj.OrderApi__Item__r.Name}
+                                                    </td>
+                                                    <td>
+                                                        <lightning:formattedNumber style="currency" currencyCode="USD" value="{!obj.OrderApi__Total__c}" maximumFractionDigits="2"/>
+                                                    </td>
+                                                </tr>
+                                            </aura:iteration>
+                                            <aura:if isTrue="{!not(empty(v.duesReceiptLinelst))}">
+                                                <aura:iteration items="{!v.duesReceiptLinelst}" var="obj"> 
+                                                    <tr>
+                                                        <td>
+                                                            {!obj.OrderApi__Sales_Order_Line__r.OrderApi__Sales_Order__r.Name}
+                                                        </td>
+                                                        <td>
+                                                            {!obj.OrderApi__Sales_Order_Line__r.OrderApi__Contact__r.Name}
+                                                        </td>
+                                                        <td>
+                                                            {!obj.OrderApi__Item__r.Name}
+                                                        </td>
+                                                        <td>
+                                                            <lightning:formattedNumber style="currency" currencyCode="USD" value="{!obj.OrderApi__Total__c}" maximumFractionDigits="2"/>
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </aura:if> 
+                                            <tr>
+                                                <td></td><td></td><td></td><td>{!$Label.c.Fon_Total} <b><lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.totalAmount}" maximumFractionDigits="2"/></b></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="slds-grid slds-grid_align-center">
+                                    <div class="slds-size_1-of-3">&nbsp;</div>
+                                     <div class="slds-size_1-of-3">&nbsp;</div>
+                                    <div class="slds-size_1-of-3">
+                                        <input type="button" class="addBtn" Value="{!v.btnLabel}" onclick="{!c.finishHandler}" />
+                                    </div>
+                                </div>
+                                 <br/> <br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

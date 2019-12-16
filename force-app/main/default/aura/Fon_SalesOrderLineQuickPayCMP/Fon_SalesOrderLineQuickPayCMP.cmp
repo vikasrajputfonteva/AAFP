@@ -1,0 +1,96 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" >
+    <aura:attribute name="lstSalesOrder" type="List" />
+    <aura:attribute name="objSalesOrder" type="Fon_SalesOrderWrapper" />
+    <aura:attribute name="isDonationAmountDisable" type="Boolean" default="true"/>
+    <aura:attribute name="isFoundationAmtDonation" type="Boolean" default="false"/>
+    <aura:attribute name="totalInvoiceAmount" type="Decimal" />
+    <div>
+        <table class="slds-table slds-table_bordered  slds-table_cell-buffer ">
+            <tbody>
+                <aura:iteration items="{!v.objSalesOrder.lstSOLI}" var="objSOLI">
+                    <tr class="slds-theme_shade">
+                        <td>
+                            <div class="slds-truncate"><b>{!objSOLI.strItemName}</b></div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate slds-float--right">
+                                <lightning:formattedNumber value="{!objSOLI.salesPriceAmount}" style="currency" currencyCode="USD"/>
+                            </div>
+                        </td>
+                    </tr> 
+                    <aura:if isTrue="{!objSOLI.isFoundationDonation}">
+                        <aura:if isTrue="{!not(objSOLI.hasDonation)}">
+                            <tr>
+                                <td colspan="2">						
+                                    <p style="font-size: 12px;">
+                                        <lightning:input type="checkbox" value="{!v.isFoundationAmtDonation}" onchange="{!c.selectFoundationDonation}" label="{!$Label.c.Fon_donateMsg}"/>&nbsp;
+                                        <br/><span style="font-style: italic;font-size: 10px;">
+                                        {!$Label.c.Fon_DonationText1} <br/> {!$Label.c.Fon_DonationText2}
+                                        </span>
+                                    </p>
+                                </td>
+                            </tr> 
+                        </aura:if> 
+                    </aura:if> 
+                    <aura:if isTrue="{!objSOLI.isPACItem }">
+                        <aura:if isTrue="{!not(objSOLI.hasPACDonation)}">
+                            <tr>
+                                <td colspan="2">
+                                    <fieldset class="slds-form-element">
+                                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.Fon_PacDonationHeadText}</legend>
+                                        <br/>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-radio">
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_50}" name="{!v.objSalesOrder.strSOID +'pacItem'}" value="{!$Label.c.Fon_value1}" onchange="{!c.selectPACDonation}" />
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_100}" name="{!v.objSalesOrder.strSOID +'pacItem'}" value="{!$Label.c.Fon_value2}" onchange="{!c.selectPACDonation}"/>
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_365}" name="{!v.objSalesOrder.strSOID +'pacItem'}" value="{!$Label.c.Fon_value3}" onchange="{!c.selectPACDonation}"/>
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_Other}" name="{!v.objSalesOrder.strSOID +'pacItem'}" value="{!$Label.c.Fon_value4}" onchange="{!c.selectPACDonation}" />
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_NoThanks}" name="{!v.objSalesOrder.strSOID +'pacItem'}" value="{!objSOLI.donationPACAmount}" onchange="{!c.selectPACDonation}" checked="true" />
+                                            </span>
+                                        </div>
+                                    </fieldset>
+                                    <br/>
+                                    
+                                    <div class="row">
+                                        <lightning:input type="Number" formatter="currency" name="input1" required="true" maxlength="10" value="{!objSOLI.salesPriceAmount}" 
+                                                         label="{!$Label.c.Fon_DonationAmt}" onkeyup="{!c.customPACDonation}" disabled="{!v.isDonationAmountDisable}" style="width:200px;"/>
+                                        <lightning:input type="Text" name="input1"  maxlength="10"  label="Employee Name" value="{!objSOLI.strEmployeeName}" style="width:200px;"/>
+                                        <p style="color:red">{! if(and(v.objSalesOrder.strBGColor == 'red', empty(objSOLI.strEmployeeName)), $Label.c.Fon_EmployeeNameMsg ,'') }</p>
+                                        <lightning:input type="Text" name="input1"   label="{!$Label.c.Fon_Occupation}" value="{!objSOLI.strOccupation}" style="width:200px;"/>
+                                        <p style="color:red">{! if(and(v.objSalesOrder.strBGColor == 'red', empty(objSOLI.strOccupation)), $Label.c.Fon_OccupationMsg ,'') }</p>
+                                    </div><br/>
+                                    
+                                    <fieldset class="slds-form-element">
+                                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.Fon_AccountTypeLabel}</legend>
+                                        <br/>
+                                        <div class="slds-form-element__control">
+                                            <span class="slds-radio">
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_Corporate}" name="{!v.objSalesOrder.strSOID +'accountType'}" value="{!$Label.c.Fon_Corporate}" onchange="{!c.selectAccountType}" />
+                                                <lightning:input type="radio" class="slds-p-top_x-small" label="{!$Label.c.Fon_Personal}" name="{!v.objSalesOrder.strSOID +'accountType'}" value="{!$Label.c.Fon_Personal}" onchange="{!c.selectAccountType}"/>
+                                            </span>
+                                             <p style="color:red">{! if(and(v.objSalesOrder.strAccountTypeBGColor == 'red', empty(objSOLI.strAccountType)), $Label.c.Fon_AccountType ,'') }</p>   
+                                        </div>
+                                    </fieldset>
+                                    <br/>
+                                    <span style="font-style: italic; font-size: 10px;">
+                                        {!$Label.c.Fon_PacDonationText1} <br/> {!$Label.c.Fon_PacDonationText2}
+                                    </span>
+                                </td>
+                            </tr> 
+                        </aura:if>
+                    </aura:if>
+                </aura:iteration>
+            </tbody>  
+        </table>
+        <div class="modal-footer slds-modal__footer slds-size_1-of-1" style="cursor: pointer; background-color:#999999; color:#fff; font-size: 13px;" >
+            <b>
+                {!$Label.c.Fon_InvoicePaymentLabel} &nbsp;&nbsp;<div class="slds-float--right" style="width:80px; background-color: whitesmoke; color:#1a1a1a;">
+                <center>
+                    <lightning:formattedNumber value="{!v.objSalesOrder.totalAmount}" style="currency" currencyCode="USD"/>
+                </center>
+                </div> 
+            </b>
+        </div>
+    </div>
+</aura:component>

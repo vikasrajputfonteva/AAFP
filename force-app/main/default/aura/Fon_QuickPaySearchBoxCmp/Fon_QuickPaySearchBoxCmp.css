@@ -1,0 +1,145 @@
+@media all and (max-width: 1022px) {
+    .THIS .float-right{
+        float: left;
+        margin-top: 15px;
+    }
+    .THIS .btnCls {
+        margin-top: 15px !important;;
+    }
+}
+.THIS .addInvoicePrompt{
+    width: 575px;
+    height: 515px;
+    position: relative;
+    margin: 60px auto;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    border-radius: 100%;
+    text-align: center;
+    background: #F6F6F6;
+}
+.THIS .addInvoicePrompt img{
+    width: 50%;
+    padding: 5px;
+    height: auto;
+    margin-top: 80px;
+    border: 1px solid #DEDEDE;
+    background: #FFF;
+}
+
+.THIS .btnCls {
+    margin-top: 25px;
+}
+.THIS .slds-form-element__label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #000;
+    font-family: 'Arial', sans-serif;
+}
+.THIS .slds-form-element__control {
+    border: 1px solid #aaaaaa;
+    border-radius: 5px;
+}
+/*.THIS .slds-button_brand{
+background-color: #cf7f00;
+border-color: #cf7f00;
+font-family: 'Arial', sans-serif;
+border-radius: 6px;
+}*/
+.THIS .addBtn{
+    background-color: #cf7f00;
+    border-color: #cf7f00;
+    font: normal 15px/15px 'Arial', sans-serif;
+    border-radius: 6px;
+    border: 0 none;
+    color: #fff;
+    display: inline-block;
+    zoom: 1;
+    display: inline;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 8px 15px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.THIS .addBtn:hover{
+    background-color:#FFC04C;
+}
+.THIS .addBtn:disabled{
+    background-color: lightgray;
+    color: darkgray;
+}
+.THIS .horizontal-gradient{
+    border: none;
+    color: #444444;
+    background: linear-gradient(to right, #ffffff 0%, #ececed 100%);
+    margin-top: 0;
+    padding: 15px 15px 15px 15px;
+}
+
+.THIS.ho{
+    padding: 5px 0 0 0px;
+    background: none;
+    margin-bottom: 0px;
+    margin-left: 0;
+}
+.THIS .float-right{
+    float: right;
+}
+.THIS .highlights {
+    border-radius: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}
+.THIS .cob-title{
+    font-size: 16px;
+    line-height: 1.5em;
+    border-bottom: 1px solid #e3e3e3;
+    color: #000;
+    padding: 0 0 5px 0;
+    overflow: hidden;
+    font: bold 16px/21px 'Arial', sans-serif;
+    display: block;
+    margin-block-start: 1.33em;
+}
+.THIS .container{
+    -webkit-border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    overflow: hidden;
+}
+.THIS .gradient-white{
+    background: linear-gradient(to bottom, #ffffff 0%, #f6f6f6 100%);
+    border: 1px solid #e3e3e3;
+}
+.THIS .button-tertiary{
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    border: 0 none;
+    display: inline-block;
+    zoom: 1;
+    font: normal 15px/15px 'Arial', sans-serif;
+    overflow: hidden;
+    padding: 6px 15px;
+    text-decoration: none;
+    width: auto;
+    margin-bottom: 20px;
+    cursor: pointer;
+    color: #4f758b;
+    font-weight: bold;
+    background-color: #e3e3e3;
+    background-image: none;
+    
+}
+.THIS .button-tertiary:hover{
+    background-color: #fff;
+}
+.THIS .button{
+    margin: 10px 0 20px 2px;
+}

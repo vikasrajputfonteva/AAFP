@@ -1,0 +1,16 @@
+<apex:page showHeader="true" sidebar="false" docType="html-5.0">
+    <apex:includeLightning />
+    
+    <div id="lightning" />
+    <script>
+    $Lightning.use("c:Fon_SelfServiceApp", function() {
+        $Lightning.createComponent("c:Fon_SelfServicePortalCmp",
+                                   {
+                                       recordId : "{!JSENCODE($CurrentPage.parameters.id)}"
+                                   },
+                                   "lightning",
+                                   function(cmp) {
+                                   });
+    });
+    </script>
+</apex:page>

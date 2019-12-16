@@ -1,0 +1,97 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,FDService:SparkPlugComponentInterface,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="Fon_QuickConfirm_Class" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute type="OrderApi__Receipt_Line__c[]" name="receiptLinelst"/>   
+    <aura:registerEvent type="FDService:SparkPlugCompleteEvent" name="SparkPlugCompleteEvent"/>
+    <aura:registerEvent type="FDService:SparkPlugLoadedEvent" name="SparkPlugLoadedEvent"/>
+    <aura:attribute name="today" type="Date" />
+    <aura:attribute type="String" name="ConfirmationNumber"></aura:attribute>
+    <aura:attribute type="list" name="lstReceiptId"></aura:attribute>
+    <aura:attribute name="total" type="Decimal" access="public" />
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-12" style="background:grey;"></div>
+        <div class="slds-col slds-size_10-of-12" style="text-align: left!Important;padding: 10px;border-bottom: 4px solid #cf7f00;">
+            <img src="{!$Resource.FON_AAFP_logo}" style="width: 175px;"/> 
+        </div>
+        <div class="slds-col slds-size_1-of-12" style="background:grey;"></div>
+    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="slds-col slds-size_1-of-12" style="background:grey;"></div>
+        <div class="slds-col slds-size_10-of-12" style="text-align: left!Important;">
+            <hgroup class="horizontal-gradient">
+                <h1 class="ho" style="font: normal 38px/44px 'Times New Roman', serif;">{!$Label.c.Fon_QuickPayConfirmation}</h1>
+            </hgroup> 
+        </div>
+        <div class="slds-col slds-size_1-of-12" style="background:grey;"></div>
+    </div>
+    <div class="slds-grid slds-wrap" style="color:#000;font-family: serif;">
+        <div class="slds-col slds-size_1-of-12" style="background:grey;"></div>
+        <div class="slds-col slds-size_10-of-12 slds-p-left_x-small" style="text-align: left!Important;background:white;">
+            <div style="font: bold 25px 'Arial',sans-serif;padding-left: 8px;" class="slds-p-top--medium "> {!$Label.c.Fon_ThankyouforPayment}</div>
+            <div class="slds-p-top--small" style="padding-left: 8px;font-family: 'Arial',sans-serif;color: #666;font-weight: 600;">
+                {!$Label.c.Fon_An_email_confirming_payment}&nbsp;<a href= "{!$Label.c.Fon_url}" style="color:#4f758b;text-decoration: none;">{!$Label.c.Fon_NonDeductible}</a>&nbsp;{!$Label.c.Fon_OnOurWebsite}
+                <br/>
+            </div>
+            <div class="slds-p-top--medium" style="font-size:17px;padding-left: 8px;"> {!$Label.c.Fon_ConfirmationNumber}&nbsp;<b>{!v.ConfirmationNumber}</b></div>
+            <div style="font-size:17px;padding-left: 8px;">{!$Label.c.Fon_Transaction_Date}&nbsp;<b><ui:outputDate format="MM/dd/yyyy" value="{!v.today}" /></b></div>
+            <br/>
+            <table class="slds-table slds-table--bordered" style="border-top: none;border-bottom: none;">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th style="font-weight: bold;color: #000;">
+                            <b> {!$Label.c.Fon_Invoice} </b>
+                        </th>
+                        <th style="font-weight: bold;color: #000;">
+                            <b>{!$Label.c.Fon_Owner}</b>
+                        </th>
+                        <th style="font-weight: bold;color: #000;">
+                            <b>{!$Label.c.Fon_Details}</b>
+                        </th>
+                        <th style="font-weight: bold;color: #000;">
+                            <b>{!$Label.c.Fon_PaymentAmount}</b>
+                        </th>
+                    </tr>    
+                </thead>     
+                <tbody>
+                    <aura:iteration items="{!v.receiptLinelst}" var="obj"> 
+                        <tr>
+                            <td>
+                                {!obj.OrderApi__Sales_Order_Line__r.OrderApi__Sales_Order__r.Name}
+                            </td>
+                            <td>
+                                {!obj.OrderApi__Sales_Order_Line__r.OrderApi__Contact__r.Name}
+                            </td>
+                            <td>
+                                {!obj.OrderApi__Item__r.Name}
+                            </td>
+                            <td>
+                                ${!obj.OrderApi__Total__c}
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                    <tr>
+                        <td></td><td></td><td></td><td>{!$Label.c.Fon_Total} <b>${!v.total}</b></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                    <input type="button" class="addBtn" Value="Print" onclick="{!c.printButtonClick}" />
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-12">
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_10-of-12">
+                    <a href="{!$Label.c.Fon_PayAnotherInvoiceUrl}" style="text-decoration: none;" target="_blank">
+                        <input type="button" class="addBtn1" Value="{!$Label.c.Fon_PayInvoice}" />
+                    </a>
+                </div>
+            </div>
+            <br/>
+            <br/> <br/>
+            <br/>
+            <br/>
+        </div>
+        <div class="slds-col slds-size_1-of-12" style="background:grey;"></div>
+    </div>
+</aura:component>

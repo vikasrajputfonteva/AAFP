@@ -1,0 +1,440 @@
+<aura:component controller="Fon_SelfServicePortalController" implements="force:lightningQuickAction,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                access="global" >
+    
+    <aura:attribute name="isComingFromBackend" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="disableInputField" type="Boolean" default="true"></aura:attribute>
+    <aura:attribute name="isCurrentYearDuesNotPaid" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="donationAmount" type="Decimal" default="0.00"></aura:attribute>
+    <aura:attribute type="OrderApi__Receipt_Line__c[]" name="duesReceiptLinelst"/>
+    <aura:attribute name="donationSoId" type="String"></aura:attribute>
+    <aura:attribute name="duesSoId" type="String"></aura:attribute>
+    <aura:attribute name="payDonationDuesSo" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="lst" type="List"></aura:attribute>
+    <aura:attribute name="btnLabel" type="string" default="Next"></aura:attribute>
+    <aura:attribute name="soliList" type="List" ></aura:attribute>
+    <aura:attribute name="changeOnlyInPerforma" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isOnlyChangeSubscription" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isFoundationDonationRenewal" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isCurrentTermNotPaidFull" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="employeeName" type="String"></aura:attribute>
+    <aura:attribute name="occupation" type="String"></aura:attribute>
+    <aura:attribute name="accountType" type="String"></aura:attribute>
+    <aura:attribute name="showValidationMsg" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="balanceDue" type="Decimal" default="0" ></aura:attribute>
+    <aura:attribute name="disableChangeSubscriptionPicklist" type="Boolean" default="true"></aura:attribute>
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="staffUser" type="Boolean" default="false"></aura:attribute>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" ></aura:handler>
+    <aura:attribute name="lstPaymentMethods" type="List" />
+    <aura:attribute name="showOldCmp" type="boolean" default="false"/>
+    <aura:attribute name="lstActiveSubscription" type="List" />
+    <aura:attribute Name="selectedPayment" type="String"  access="public" />
+    <aura:attribute name="lstActiveInstallmentsSubscription" type="List" />
+    <aura:attribute name="lstNextYearDues" type="List" />
+    <aura:attribute name="isConvenienceFeeAdd" type="Boolean" default="false" />
+    <aura:attribute name="selectedValue" type="String" access="public" />
+    <aura:attribute name="isNextButtonDisable" type="Boolean" default="true" />
+    <aura:attribute type="OrderApi__Receipt_Line__c[]" name="receiptLinelst"/>
+    <aura:attribute name="totalAmount" type="Decimal" default="0" ></aura:attribute>
+    <aura:attribute type="String" name="ConfirmationNumber"></aura:attribute>
+    <aura:attribute name="otherDonationAmt" type="Decimal" default="0" ></aura:attribute>
+    <aura:attribute name="foundationAmtDonation" type="Decimal" default="0" ></aura:attribute>
+    <aura:attribute name="packAmtDonation" type="Decimal" default="0"></aura:attribute>
+    <aura:attribute name="convenienceFeeAmt" type="Decimal" default="0"></aura:attribute>
+    <aura:attribute name="isFoundationDonationChecked" type="Boolean" default="false" ></aura:attribute>
+    <aura:attribute name="isDVisible" type="Boolean" default="false" /><!-- For Accordion -->
+    <aura:attribute name="isfirstPage" type="Boolean" default="false" />
+    <aura:attribute name="isSecondPage" type="Boolean" default="false" />
+    <aura:attribute name="isThirdPage" type="Boolean" default="false" />
+    <!-- Used to add required attribute dynamic -->
+    <aura:attribute name="isRequired" type="Boolean" default="true" />
+    
+    <aura:attribute name="stepIndex" type="String" default="1" />
+    <aura:attribute name="currentPlan" type="String" access="public" />
+    <aura:attribute name="subscriptionMap" type="Map"/>
+    <aura:attribute name="isDonationAmountDisable" type="Boolean" default="true"/>
+    <aura:attribute name="currentDuesNextPaymentMonth" type="String" ></aura:attribute>
+    
+    <aura:attribute name="isAccountTypeCorporateChecked" type="Boolean" default="true"></aura:attribute>
+    <aura:attribute name="isAccountTypePersonalChecked" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isFirstChecked" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isSecondChecked" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isThirdChecked" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isFourthChecked" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isFiveChecked" type="Boolean" default="true"></aura:attribute>
+    <aura:attribute name="isFoundationAutoRenewDisable" type="Boolean" default="true"></aura:attribute>
+    
+    <aura:attribute name="activeSectionList" type="LIst" ></aura:attribute>
+    <aura:attribute name="activeSections" type="List" default="{!v.activeSectionList}" />
+    <aura:attribute name="totalBalaceDueAmount" type="Decimal" default="0"></aura:attribute>
+    
+    <aura:attribute name="isNextYearConvenienceFeeApplied" type="Boolean" default="false"></aura:attribute>
+    
+    <aura:attribute name="IsSpinner" type="Boolean"/>
+    <aura:if isTrue="{!v.IsSpinner}">
+        <lightning:spinner variant="brand" size="large"/>
+    </aura:if>
+    <div style="background-color:#FFF">
+        <div class="slds-container_x-large slds-container_center"> 
+            <div class="slds-grid slds-wrap">
+                <div class="slds-size_12-of-12">
+                    <div class="slds-box slds-box_x-small slds-text-align_center slds-m-around_x-small" style="border: none;">
+                        <lightning:progressIndicator currentStep="{!v.stepIndex}" type="path" variant="base">
+                            <lightning:progressStep style="reduceTxtSize" label="{!$Label.c.Fon_FirstProgressStepTitle}" value="1"/>
+                            <lightning:progressStep style="reduceTxtSize" label="{!$Label.c.Fon_SecondProgressStepTitle}" value="2" />
+                            <lightning:progressStep style="reduceTxtSize" label="{!$Label.c.Fon_ThirdProgressStepTitle}" value="3"/>
+                        </lightning:progressIndicator>
+                    </div>
+                </div>           
+            </div>
+            
+            <!-- First Page Start -->
+            <aura:if isTrue="{!v.isfirstPage}">
+                <lightning:accordion allowMultipleSectionsOpen="true" aura:id="accordion" activeSectionName="{! v.activeSections }" onsectiontoggle="{! c.handleSectionToggle }" class="rmv">
+                    <!-- Dues Section -->
+                    <lightning:accordionSection name="{!$Label.c.Fon_FirstPageFirstSectionTitle}" label="{!$Label.c.Fon_FirstPageFirstSectionTitle}">
+                        <!-- Current Year Dues -->
+                        <aura:if isTrue="{!not(empty(v.lstActiveInstallmentsSubscription))}">
+                            <div class="slds-m-bottom_small">
+                                <div class="pfm-text-body_x-medium pfm-font-weight_bold">{!$Label.c.Fon_CurrentYearDues}</div>
+                            </div>
+                            <div class="slds-m-bottom_small">
+                                <div class="pfm-card slds-card" style="border:none">
+                                    <div class="slds-card__body slds-card__body_inner " >
+                                        <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                                            <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                                                <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                                                    <div class="slds-col slds-grid slds-grid_vertical" >
+                                                        <aura:iteration items="{!v.lstActiveInstallmentsSubscription}" var="sub" >                                                            
+                                                            <aura:if isTrue="{!sub.isAutoFullPay}">
+                                                                <div class="slds-m-bottom_small">{!sub.itemName}:&nbsp;<span class="slds-p-right_xx-small"><lightning:formattedNumber value="{!sub.balanceRemaining}" style="currency" currencyCode="USD"/></span></div>
+                                                                <aura:set attribute="else">
+                                                                    <div class="slds-m-bottom_small">Next Payment Due:<span class="slds-p-right_xx-small"></span>{!sub.nextPaymentDue}</div>
+                                                                    <div class="slds-m-bottom_small">No of Installments Remaining:<span class="slds-p-right_xx-small" ></span>{!sub.noOfInstallmentsRemaining}</div>
+                                                                    <div class="slds-m-bottom_small">Installment Amount:<span class="slds-p-right_xx-small" ></span><lightning:formattedNumber value="{!sub.installmentAmount}" style="currency" currencyCode="USD"/></div>
+                                                                    <div class="">Balance Remaining:<span class="slds-p-right_xx-small" ></span><lightning:formattedNumber value="{!sub.balanceRemaining}" style="currency" currencyCode="USD"/></div>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </aura:iteration>
+                                                        <aura:if isTrue="{!if(v.totalBalaceDueAmount>0,true,false)}">
+                                                            <div class="slds-m-bottom_small" style="text-align: end;">{!$Label.c.Fon_TotalAmt}&nbsp;<span class="slds-p-right_xx-small"><lightning:formattedNumber value="{!v.totalBalaceDueAmount}" style="currency" currencyCode="USD"/></span></div>
+                                                        </aura:if>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-col slds-align-middle slds-text-heading_small slds-text-align_center" style="font-weight: 700;">{!$Label.c.Fon_NoSubscriptionsFound}</div>
+                            </aura:set>
+                        </aura:if>
+                        <!-- Current Year Dues -->
+                        <!-- Next Year Dues -->
+                        <aura:if isTrue="{!not(empty(v.lstNextYearDues))}">
+                            <div class="slds-m-bottom_medium">
+                                <div class="pfm-text-body_x-medium pfm-font-weight_bold">{!$Label.c.Fon_NextYearDues}</div>
+                            </div>
+                            <div class="slds-m-bottom_small">
+                                <div class="pfm-card slds-card" style="border:none">
+                                    <div class="slds-card__body slds-card__body_inner " >
+                                        <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                                            <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                                                <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                                                    <div class="slds-col slds-grid slds-grid_vertical" >
+                                                        <aura:iteration items="{!v.lstNextYearDues}" var="sub" >
+                                                            <aura:if isTrue="{!sub.isAutoFullPay}">
+                                                                <div class="slds-m-bottom_small">{!sub.itemName}:&nbsp;<span class="slds-p-right_xx-small"><lightning:formattedNumber value="{!sub.balanceRemaining}" style="currency" currencyCode="USD"/></span></div>
+                                                                <aura:set attribute="else">
+                                                                    <div class="slds-m-bottom_small">Next Payment Due:<span class="slds-p-right_xx-small"></span>{!sub.nextPaymentDue}</div>
+                                                                    <div class="slds-m-bottom_small">No of Installments Remaining:<span class="slds-p-right_xx-small" ></span>{!sub.noOfInstallmentsRemaining}</div>
+                                                                    <div class="slds-m-bottom_small">Installment Amount:<span class="slds-p-right_xx-small" ></span><lightning:formattedNumber value="{!sub.installmentAmount}" style="currency" currencyCode="USD"/></div>
+                                                                    <div class="">Balance Remaining:<span class="slds-p-right_xx-small" ></span><lightning:formattedNumber value="{!sub.balanceRemaining}" style="currency" currencyCode="USD"/></div>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </aura:iteration>
+                                                        <aura:if isTrue="{!if(v.totalBalaceDueAmount>0,true,false)}">
+                                                            <div class="slds-m-bottom_small" style="text-align: end;">{!$Label.c.Fon_TotalAmt}&nbsp;<span class="slds-p-right_xx-small"><lightning:formattedNumber value="{!v.totalBalaceDueAmount}" style="currency" currencyCode="USD"/></span></div>
+                                                        </aura:if>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <!-- Next Year Dues -->
+                    </lightning:accordionSection>
+                    <!-- Dues Section -->
+                    
+                    <!-- Change Subscription Section -->
+                    <lightning:accordionSection name="{!$Label.c.Fon_FirstPageSecondSectionTitle}" label="{!$Label.c.Fon_FirstPageSecondSectionTitle}">
+                        <div class="slds-card__body slds-card__body_inner " >
+                            <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                                <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                                    <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                                        <div class="slds-col slds-grid slds-grid_vertical" >
+                                            <lightning:select value="{!v.selectedValue}" onchange="{!c.handlesubscriptionChange}" label="" disabled="{!v.disableChangeSubscriptionPicklist}" >
+                                                <option value="">--None--</option>
+                                                <aura:iteration items="{!v.subscriptionMap}" var="ind" indexVar="key">
+                                                    <option text="{!ind.value}" value="{!ind.key}" selected="{!ind.key==v.selectedValue}"/>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                            <aura:if isTrue="{!v.isConvenienceFeeAdd}">
+                                                <aura:if isTrue="{!v.isNextYearConvenienceFeeApplied}">
+                                                    <div class="slds-m-bottom_small" style="color:red">{!$Label.c.Fon_NextYearPlanChangeMessage}</div>
+                                                    <aura:set attribute="else">
+                                                        <div class="slds-m-bottom_small" style="color:red">{!$Label.c.Fon_PlanChangeMessage}</div>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.showValidationMsg}">
+                                                <div class="slds-m-bottom_small" style="color:red">{!$Label.c.Fon_ValidationMessage}</div>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:accordionSection>
+                    <!-- Change Subscription Section -->
+                    
+                    <!-- Add Donation Section-->
+                    <lightning:accordionSection name="{!$Label.c.Fon_FirstPageThirdSectionTitle}" label="{!$Label.c.Fon_FirstPageThirdSectionTitle}">
+                        <div class="pfm-card slds-card" style="border:none" >
+                            <div class="slds-card__body slds-card__body_inner " >
+                                <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                                    <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                                        <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                                            <div class="slds-col slds-grid slds-grid_vertical" >
+                                                <lightning:input aura:id="foundationDonationCheckBox" type="checkbox" checked="{!v.isFoundationDonationChecked}" onchange="{!c.selectFoundationDonation}" label="{!$Label.c.Fon_donateMsg}"/>
+                                                <br/>
+                                                <lightning:input aura:id="isFoundationDonationRenewalCheckBox" checked="{!v.isFoundationDonationRenewal}" disabled="{!v.isFoundationAutoRenewDisable}" type="checkbox" onchange="{!c.selectFoundationDonationRenewal}" label="{!$Label.c.Fon_FoundationAutoRenew}"/>&nbsp;
+                                                <br/>
+                                                <span style="font-style: italic;font-size: 10px;">
+                                                    {!$Label.c.Fon_DonationText1} <br/> {!$Label.c.Fon_DonationText2}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-m-bottom_small">
+                            <div class="pfm-card slds-card LTECard" style="border:none" >
+                                <div class="slds-card__body slds-card__body_inner "  >
+                                    <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small slds-wrap pfm-max-medium-grid_reverse" >
+                                        <div class="slds-col slds-has-flexi-truncate pfm-medium-size_auto">
+                                            <div class="slds-grid slds-grid_pull-padded-small slds-gutters_small" >
+                                                <div class="slds-col slds-grid slds-grid_vertical" >
+                                                    <fieldset class="slds-form-element">
+                                                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.Fon_PacDonationHeadText}</legend>
+                                                        <br/>
+                                                        <div class="slds-form-element__control">
+                                                            <span class="slds-radio">
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="$50.00" name="pacItem" value="50" onchange="{!c.selectPACDonation}" checked="{!v.isFirstChecked}" />
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="$100.00" name="pacItem" value="100" onchange="{!c.selectPACDonation}"  checked="{!v.isSecondChecked}"/>
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="$365.00(Club Charge)" name="pacItem" value="365" onchange="{!c.selectPACDonation}"  checked="{!v.isThirdChecked}"/>
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="Other" name="pacItem" value="0" onchange="{!c.selectPACDonation}"  checked="{!v.isFourthChecked}" />
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="No Thanks" name="pacItem" value="" onchange="{!c.selectPACDonation}" checked="{!v.isFiveChecked}" />
+                                                            </span>
+                                                        </div>
+                                                    </fieldset>
+                                                    <br/>
+                                                    <div class="row">
+                                                        <lightning:input type="Number" formatter="currency" required="true" maxlength="10"
+                                                                         label="Donation Amount" value="{!v.donationAmount}" onkeyup="{!c.customPACDonation}" disabled="{!v.isDonationAmountDisable}" style="width:200px;"/>
+                                                        
+                                                        <lightning:input aura:id="empName" required="{!v.isRequired}" type="Text" label="Employee Name" value="{!v.employeeName}" style="width:200px;" disabled="{!v.disableInputField}" maxlength="10"  onblur="{!c.handleBlur}"/>
+                                                        <lightning:input aura:id="occupation" required="{!v.isRequired}" type="Text" label="Occupation" value="{!v.occupation}" style="width:200px;" disabled="{!v.disableInputField}"  onblur="{!c.handleBlur}" />
+                                                    </div><br/>
+                                                    
+                                                    <fieldset class="slds-form-element">
+                                                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.Fon_AccountTypeLabel}</legend>
+                                                        <br/>
+                                                        <div class="slds-form-element__control">
+                                                            <span class="slds-radio">
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="Corporate" name="accountType" value="Corporate" onchange="{!c.selectAccountType}" checked="{!v.isAccountTypeCorporateChecked}"/>
+                                                                <lightning:input type="radio" class="slds-p-top_x-small" label="Personal" name="accountType" value="Personal" onchange="{!c.selectAccountType}" checked="{!v.isAccountTypePersonalChecked}"/>
+                                                            </span>
+                                                        </div>
+                                                    </fieldset>
+                                                    <br/>
+                                                    <span style="font-style: italic; font-size: 10px;">
+                                                        {!$Label.c.Fon_PacDonationText1} <br/> {!$Label.c.Fon_PacDonationText2}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning:accordionSection>
+                    <!-- Add Donation Section-->
+                    
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-size_12-of-12">
+                            <div class="slds-box slds-box_x-small slds-m-around_x-small" style="border: none;">
+                                <div class="slds-page-header" style="border:2px solid;cursor:pointer;color:#fff;background-color:#0096cc;" >
+                                    <section class="slds-clearfix">
+                                        <div class="slds-m-left--large">
+                                            <aura:if isTrue="{!if(not(empty(v.soliList)),true,false)}">
+                                                <aura:if isTrue="{!if(v.selectedValue=='Auto Full Pay' || v.selectedValue=='',true,false)}">
+                                                    <aura:if isTrue="{!if(v.selectedValue!=v.currentPlan,true,false)}">
+                                                        <aura:iteration items="{!v.soliList}" var="soli" >
+                                                            {!soli.itemName}:&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!soli.balanceAmount}" maximumFractionDigits="2"/>
+                                                            <br/>
+                                                        </aura:iteration>
+                                                    </aura:if>
+                                                </aura:if>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.isConvenienceFeeAdd}">
+                                                {!$Label.c.Fon_ConvenienceFee}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.convenienceFeeAmt}" maximumFractionDigits="2"/>
+                                                <br/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.isFoundationDonationChecked}">
+                                                {!$Label.c.Fon_AAFP_Foundation}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.foundationAmtDonation}" maximumFractionDigits="2"/>
+                                                <br/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.packAmtDonation>0}">
+                                                {!$Label.c.Fon_FamMedPAC}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation}" maximumFractionDigits="2"/>
+                                                <br/>
+                                            </aura:if>
+                                            <div class="slds-float--right slds-m-right_x-large"> 
+                                                <aura:if isTrue="{!if(not(empty(v.soliList)),true,false)}">
+                                                    <aura:if isTrue="{!if(v.selectedValue=='Auto Full Pay' || v.selectedValue=='',true,false)}">
+                                                        <aura:if isTrue="{!if(v.selectedValue!=v.currentPlan,true,false)}">
+                                                            <b>
+                                                                {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{! v.balanceDue + v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation}" maximumFractionDigits="2"/>
+                                                            </b>
+                                                            <aura:set attribute="else">
+                                                                <b>
+                                                                    {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                                </b>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <aura:set attribute="else">
+                                                            <b>
+                                                                {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                            </b>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    <aura:set attribute="else">
+                                                        <b>
+                                                            {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                        </b>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>  
+                        <div class="slds-size_12-of-12">
+                            <div class="slds-box slds-box_x-small slds-m-around_x-small" style="border: none;float: right;">
+                                <lightning:button variant="brand" label="{!v.btnLabel}" onclick="{!c.nextButtonClick}" class="customButtonWidth addBtn" disabled="{!v.isNextButtonDisable}"/>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:accordion>
+            </aura:if>
+            <!-- First Page End-->
+            
+            <!-- Second Page Start-->
+            <aura:if isTrue="{!v.isSecondPage}">
+                <lightning:accordion allowMultipleSectionsOpen="true" aura:id="accordion" activeSectionName="{!$Label.c.Fon_SecondPageFirstSectionTitle}" class="rmv">
+                    <lightning:accordionSection name="{!$Label.c.Fon_SecondPageFirstSectionTitle}" label="{!$Label.c.Fon_SecondPageFirstSectionTitle}">
+                        <c:Fon_SelfServiceSelectPayment recordId="{!v.recordId}" selectedPayment="{!v.selectedPayment}" lstPaymentMethods="{!v.lstPaymentMethods}" />
+                    </lightning:accordionSection>
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_12-of-12">
+                            <div class="slds-box slds-box_x-small slds-m-around_x-small" style="border: none;">
+                                <div class="slds-page-header" style="border:2px solid;cursor:pointer;color:#fff;background-color:#0096cc;" >
+                                    <section class="slds-clearfix">
+                                        <div class="slds-m-left--large">
+                                            <aura:if isTrue="{!if(not(empty(v.soliList)),true,false)}">
+                                                <aura:if isTrue="{!if(v.selectedValue=='Auto Full Pay' || v.selectedValue=='',true,false)}">
+                                                    <aura:if isTrue="{!if(v.selectedValue!=v.currentPlan,true,false)}">
+                                                        <aura:iteration items="{!v.soliList}" var="soli" >
+                                                            {!soli.itemName}:&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!soli.balanceAmount}" maximumFractionDigits="2"/>
+                                                            <br/>
+                                                        </aura:iteration>
+                                                    </aura:if>
+                                                </aura:if>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.isConvenienceFeeAdd}">
+                                                {!$Label.c.Fon_ConvenienceFee}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.convenienceFeeAmt}" maximumFractionDigits="2"/>
+                                                <br/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.isFoundationDonationChecked}">
+                                                {!$Label.c.Fon_AAFP_Foundation}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.foundationAmtDonation}" maximumFractionDigits="2"/>
+                                                <br/>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.packAmtDonation>0}">
+                                                {!$Label.c.Fon_FamMedPAC}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation}" maximumFractionDigits="2"/>
+                                                <br/>
+                                            </aura:if>
+                                            <div class="slds-float--right slds-m-right_x-large"> 
+                                                <aura:if isTrue="{!if(not(empty(v.soliList)),true,false)}">
+                                                    <aura:if isTrue="{!if(v.selectedValue=='Auto Full Pay' || v.selectedValue=='',true,false)}">
+                                                        <aura:if isTrue="{!if(v.selectedValue!=v.currentPlan,true,false)}">
+                                                            <b>
+                                                                {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.balanceDue + v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                            </b>
+                                                            <aura:set attribute="else">
+                                                                <b>
+                                                                    {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                                </b>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <aura:set attribute="else">
+                                                            <b>
+                                                                {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                            </b>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    <aura:set attribute="else">
+                                                        <b>
+                                                            {!$Label.c.Fon_TotalAmt}&nbsp;<lightning:formattedNumber style="currency" currencyCode="USD" value="{!v.packAmtDonation + v.convenienceFeeAmt + v.foundationAmtDonation }" maximumFractionDigits="2"/>
+                                                        </b>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>  
+                        
+                        <div class="slds-col slds-large-size_12-of-12" style="margin-bottom:20px">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12" style="margin-bottom:10px">
+                                    <div style="text-align: right;margin-right:20px"> {!$Label.c.Fon_CustomMessage}</div>
+                                </div>
+                                <div class="slds-col slds-large-size_6-of-12" >
+                                    <lightning:button variant="brand" class="backBtn" label="Back" onclick="{!c.backButtonClick}" />
+                                </div>
+                                <div class="slds-col slds-large-size_6-of-12" style="text-align: right;" >
+                                    <lightning:button variant="brand" class="submitBtn" label="{!$Label.c.Fon_Submit}" onclick="{!c.processPaymentButtionClick}" disabled="{!if(v.selectedPayment==null || v.selectedPayment=='',true,false)}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning:accordion>
+            </aura:if>
+            <!-- Second Page End -->
+            
+            <!-- Third Page Start -->
+            <aura:if isTrue="{!v.isThirdPage}">
+                <c:Fon_SelfServicePaymentConfirmationCmp isComingFromBackend="{!v.isComingFromBackend}" selectedValue="{!v.selectedValue}" balanceDue="{!v.balanceDue}"  duesReceiptLinelst="{!v.duesReceiptLinelst}" ConfirmationNumber="{!v.ConfirmationNumber}" receiptLinelst="{!v.receiptLinelst}" foundationAmtDonation="{!v.foundationAmtDonation}" packAmtDonation="{!v.packAmtDonation}" convenienceFeeAmt="{!v.convenienceFeeAmt}" recordId="{!v.recordId}"></c:Fon_SelfServicePaymentConfirmationCmp>
+            </aura:if>
+            <!-- Third Page End-->
+        </div>
+    </div>
+</aura:component>

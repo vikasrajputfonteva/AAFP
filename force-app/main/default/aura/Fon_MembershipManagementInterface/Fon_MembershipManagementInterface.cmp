@@ -1,0 +1,109 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,lightning:isUrlAddressable" access="global" controller="Fon_MembershipManagementInterfaceCtrl">
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="objActiveSubscription" type="OrderApi__Subscription__c" />
+    <aura:attribute name="activeMembershipId" type="String" />
+    <aura:attribute name="enableMainFrame" type="Boolean" default="true"/>
+    <aura:attribute name="dynamicMsgMAP" type="Map" />
+    <aura:attribute name="showCancelReasonModal" type="boolean" default="false"/> 
+    <aura:attribute name="reasonForCancelling" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="disableRevertTheFinancialCheckbox" type="Boolean" default="true"></aura:attribute>
+    
+    
+    <aura:html tag="style">
+        .slds-spinner_container{
+        background: transparent !important;
+        }
+        .modal-body {
+        background: transparent !important;
+        box-shadow: none !important;
+        }
+        .slds-modal__header--empty {
+        display: none !important;
+        }
+        .modal-container{
+        width: 60% !important;
+        max-width: initial !important;
+        }
+        .slds-modal__content {
+        
+        }
+        .memebershipmodel{
+        width: 75%;
+        margin: 0 auto;
+        }
+    </aura:html>   
+    
+    <lightning:spinner aura:id="serverStatusSpinner" class="slds-hide"/>
+    <aura:if isTrue="{!v.enableMainFrame}">
+        <br/><br/>
+        <div style="border: 2px solid black;" class="slds-modal--large memebershipmodel" aura:id="mainFrameDiv">
+            <div class="slds-modal__header custom-background slds-p-top_none slds-p-bottom_none">
+                <div class="slds-grid slds-wrap custom-bg-color ">
+                    <div class="slds-col slds-small-size-1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+                        <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeModalView}">
+                            <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 class="custom-header-font ">{!$Label.c.Fon_MembershipManagementInterface}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-wrap custom-bg-color ">
+                <div class="slds-col slds-large-size_6-of-12" style="margin-top: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button  " onclick="{!c.newMembership}">{!$Label.c.Fon_Membership_New}</button>
+                </div>
+                <div class="slds-col slds-large-size_6-of-12" style="margin-top: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button" onclick="{!c.cancelMembershipButtonClick}">{!$Label.c.Fon_Membership_Cancel}</button>
+                </div>
+                <div class="slds-col slds-large-size_6-of-12" style="margin-top: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button" onclick="{!c.changeTypeMembership}">{!$Label.c.Fon_MemberType_Change}</button>
+                </div>
+                <div class="slds-col  slds-large-size_6-of-12" style="margin-top: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button" onclick="{!c.changeState_LocalType}">{!$Label.c.Fon_State_LocalType_Change}</button>
+                </div>
+               <!-- <div class="slds-col slds-large-size_6-of-12" style="margin-top: 30px;margin-bottom: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button" onclick="{!c.changeSubscriptionPlan}">{!$Label.c.Fon_Subscription_Plan_Change}</button>
+                </div> -->
+                <div class="slds-col  slds-large-size_12-of-12" style="margin-top: 30px;margin-bottom: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button1" onclick="{!c.openSelfServicePortal}">{!$Label.c.Fon_SelfServicePortal}</button>
+                </div>
+                <!-- <div class="slds-col  slds-large-size_12-of-12" style="margin-top: 30px;margin-bottom: 30px;text-align: center;">
+                    <button class="slds-button slds-button_brand custom-button1" onclick="{!c.changeSubscriptionPlan}">{!$Label.c.Fon_Subscription_Plan_Change}</button>
+                </div> -->
+            </div>
+        </div>
+    </aura:if> 
+    <aura:if isTrue="{!v.showCancelReasonModal}">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header  slds-theme_inverse">
+                <button class="slds-button slds-button--icon-inverse slds-modal__close" onclick="{!c.closeModalView}">
+                    <lightning:icon iconName="utility:close" size="medium" variant="bare"/>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 class="slds-text-heading_medium slds-hyphenate">{!$Label.c.Fon_ReasonForCancellingSubscription}</h2>
+            </div>
+            
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning:recordEditForm onsubmit="{!c.recordSubmitted}"
+                                          onsuccess="{!c.actionOnSuccess}"
+                                          recordId="{!v.activeMembershipId}"
+                                          objectApiName="Fon_Membership_Staging__c"
+                                          aura:id="membershipStateLocalForm" >                           
+                    
+                    <lightning:inputField fieldName="Fon_Cancelled_Reason__c"/>
+                    
+                    <div class="slds-m-top_medium">
+                        <lightning:button variant="brand" type="submit" name="Update Membership" label="Update State/localtype" />
+                        <button class="slds-button slds-button_neutral" onclick="{!c.closeCancelModalView}">Back</button>
+                    </div>
+                </lightning:recordEditForm>
+            </div>
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_brand" onclick="{!c.cancelMembership}">Continue</button>
+                <button class="slds-button slds-button_neutral" onclick="{!c.closeCancelModalView}">Back</button>
+            </footer>
+        </div>
+        
+    </aura:if>
+</aura:component>
